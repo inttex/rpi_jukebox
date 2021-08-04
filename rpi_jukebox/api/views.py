@@ -5,7 +5,7 @@ from functools import partial
 from flask import Flask
 from flask_restful import Resource, Api
 
-# import rpi_jukebox.resources
+from rpi_jukebox import resources
 
 def main():
     run()
@@ -17,16 +17,10 @@ def run():
     # To get one variable, tape app.config['MY_VARIABLE']
     api = Api(app)
 
-    class Homepage(Resource):
-        def get(self):
-            return 'homepage'
 
-    class Jukebox(Resource):
-        def get(self):
-            return 'dico of database'
 
-    api.add_resource(Homepage, '/')
-    api.add_resource(Jukebox, '/jukebox')
+    api.add_resource(resources.homepage.Homepage, '/')
+    api.add_resource(resources.jukebox.Jukebox, '/jukebox')
 
     signal.signal(signal.SIGTERM, partial(stop_server))
     signal.signal(signal.SIGINT, partial(stop_server))
