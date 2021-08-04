@@ -22,6 +22,14 @@ def abort_if_rfid_is_already_defined(rfid):
     if rfid in musics.keys():
         abort(422, message='rfid {} is already in the database'.format(rfid))
 
+def save_db(musics):
+    try:
+        with open(DB_FILENAME, 'wb') as myfile:
+            pickle.dump(musics, myfile)
+    except IOError:
+        print('could not access or find last parameter file')
+
+
 try:
     with open(DB_FILENAME, 'rb') as myfile:
         musics = pickle.load(myfile)
@@ -42,11 +50,7 @@ class Jukebox(Resource):
         rfid = request.form['rfid']
         abort_if_rfid_is_already_defined(rfid)
         musics[rfid] = None
-        try:
-            with open(DB_FILENAME, 'wb') as myfile:
-                pickle.dump(musics, myfile)
-        except IOError:
-            print('could not access or find last parameter file')
+        save_db(musics)
         return rfid, 201
 
 class Music(Resource):
@@ -55,6 +59,11 @@ class Music(Resource):
         abort_if_music_is_empty(rfid)
         return musics[rfid]
 
+    def delete(self, rfid):
+        abort_if_music_doesnt_exist(rfid)
+        del musics[rfid]
+        save_db(musics)
+        return '', 204
 
 if __name__=='__main__':
     main()
