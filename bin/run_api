@@ -2,4 +2,4 @@
 
 import rpi_jukebox
 
-rpi_jukebox.api.app.run(debug=True)
+rpi_jukebox.api.views.run()

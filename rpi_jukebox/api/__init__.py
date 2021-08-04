@@ -1,2 +1,1 @@
-from . import config
-from .views import app
+from . import config, views
