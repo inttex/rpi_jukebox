@@ -1,0 +1,5 @@
+#!/usr/bin/env python
+
+import rpi_jukebox
+
+rpi_jukebox.api.app.run(debug=True)
