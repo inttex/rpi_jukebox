@@ -38,12 +38,9 @@ def initiate_api():
         except IOError:
             print('could not access or find last parameter file')
             musics = dict()
-        lines = list()
-        for rfid, title in musics.items():
-            lines.append("<p> {}: {}</p>".format(rfid, title))
-        html_content = os.linesep.join(lines)
-        return render_template('index.html', name='imam')
-        # return html_content
+        html_content = resources.homepage.index(musics)
+        # return render_template('index.html', musics=musics)
+        return html_content
 
     signal.signal(signal.SIGTERM, partial(stop_server))
     signal.signal(signal.SIGINT, partial(stop_server))
