@@ -21,6 +21,7 @@ def initiate_api():
 
     api.add_resource(resources.homepage.Homepage, '/')
     api.add_resource(resources.jukebox.Jukebox, '/jukebox')
+    api.add_resource(resources.jukebox.Music, '/jukebox/<rfid>')
 
     signal.signal(signal.SIGTERM, partial(stop_server))
     signal.signal(signal.SIGINT, partial(stop_server))
