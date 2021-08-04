@@ -65,5 +65,12 @@ class Music(Resource):
         save_db(musics)
         return '', 204
 
+    def put(self, rfid):
+        abort_if_music_doesnt_exist(rfid)
+        title = request.form['title']
+        musics[rfid] = title
+        save_db(musics)
+        return title, 201
+
 if __name__=='__main__':
     main()
