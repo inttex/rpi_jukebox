@@ -33,7 +33,7 @@ setup(name='rpi_jukebox',
         author_email='imam.usmani@sfr.fr',
         packages=['rpi_jukebox', 'rpi_jukebox.api', 'rpi_jukebox.resources', 'rpi_jukebox.utils', 'rpi_jukebox.client'],
         install_requires=install_requires,
-        # include_package_data=True,
-        # zip_safe=False,
+        include_package_data=True,
+        zip_safe=False,
         scripts=scripts
 )
