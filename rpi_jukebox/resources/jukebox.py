@@ -27,7 +27,7 @@ except IOError:
 
 class Jukebox(Resource):
     def get(self):
-        return 'dico of database'
+        return musics
 
 if __name__=='__main__':
     main()
