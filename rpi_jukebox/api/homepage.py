@@ -17,9 +17,9 @@ def index(musics):
         lines = list()
         for rfid, title in musics.items():
             html = str()
-            html += "<form method=get action=/unwrapper>"
             html += '<p>'
             html +='{}: {}'.format(rfid, title)
+            html += "<form method=get action=/unwrapper style='float: left;'>"
             html += "<input type='hidden' name='method' value='DELETE'/>"
             html += "<input type='hidden' name='rfid' value='{}'/>".format(rfid)
             html += "<input type='submit' value='DELETE'/>"
@@ -34,8 +34,11 @@ def index(musics):
             lines.append(html)
         html = str()
         html += "<form method=post action=/jukebox>"
+        html += '<p>'
+        html += '<label>rfid no</label> : '
         html += "<input type='text' name='rfid'/>"
-        html += "<input type='submit' value='POST'/>"
+        html += "<input type='submit' value='NEW'/>"
+        html += '</p>'
         html += "</form>"
         lines.append(html)
         html_content = os.linesep.join(lines)
