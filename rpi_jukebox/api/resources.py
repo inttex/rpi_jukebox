@@ -1,7 +1,7 @@
 import os
 import pickle
 
-from flask import request, url_for
+from flask import request, url_for, redirect
 from flask_restful import Resource, abort
 import requests
 
@@ -81,6 +81,7 @@ class UnWrapper(Resource):
             rfid = request.args.get('rfid')
             url = url_for('jukebox', _external=True) + '/{}'.format(rfid)
             requests.delete(url)
+            return redirect(url_for('home_page'))
 
 if __name__=='__main__':
     main()
