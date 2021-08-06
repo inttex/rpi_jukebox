@@ -7,7 +7,7 @@ import pickle
 from flask import Flask, render_template
 from flask_restful import Resource, Api
 
-from rpi_jukebox import resources
+from rpi_jukebox.api import resources, homepage
 
 def main():
     app = initiate_api()
@@ -24,8 +24,8 @@ def initiate_api():
     # To get one variable, tape app.config['MY_VARIABLE']
     api = Api(app)
 
-    api.add_resource(resources.jukebox.Jukebox, '/jukebox')
-    api.add_resource(resources.jukebox.Music, '/jukebox/<rfid>')
+    api.add_resource(resources.Jukebox, '/jukebox')
+    api.add_resource(resources.Music, '/jukebox/<rfid>')
 
     @app.route('/')
     def home_page():
@@ -38,7 +38,7 @@ def initiate_api():
         except IOError:
             print('could not access or find last parameter file')
             musics = dict()
-        html_content = resources.homepage.index(musics)
+        html_content = homepage.index(musics)
         # return render_template('index.html', musics=musics)
         return html_content
 

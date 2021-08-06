@@ -1,1 +1,1 @@
-from . import config, views
+from . import views
