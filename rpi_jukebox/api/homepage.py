@@ -18,8 +18,8 @@ def index(musics):
         for rfid, title in musics.items():
             html = str()
             html += '<p>'
-            html +='{}: {}'.format(rfid, title)
             html += "<form method=get action=/unwrapper style='float: left;'>"
+            html +="<label>{}: {}</label>".format(rfid, title)
             html += "<input type='hidden' name='method' value='DELETE'/>"
             html += "<input type='hidden' name='rfid' value='{}'/>".format(rfid)
             html += "<input type='submit' value='DELETE'/>"
