@@ -26,7 +26,12 @@ def index(musics):
             html += "</form>"
             html += '</p>'
             lines.append(html)
-        lines.append("<form method=post action=/jukebox> <input type='text' name='rfid'/><input type='submit' value='post'/></form>")
+        html = str()
+        html += "<form method=post action=/jukebox>"
+        html += "<input type='text' name='rfid'/>"
+        html += "<input type='submit' value='POST'/>"
+        html += "</form>"
+        lines.append(html)
         html_content = os.linesep.join(lines)
         return html_content
 
