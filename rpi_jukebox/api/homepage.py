@@ -24,6 +24,12 @@ def index(musics):
             html += "<input type='hidden' name='rfid' value='{}'/>".format(rfid)
             html += "<input type='submit' value='DELETE'/>"
             html += "</form>"
+            html += "<form method=post action=/unwrapper>"
+            html += "<input type='hidden' name='method' value='PUT'/>"
+            html += "<input type='hidden' name='rfid' value='{}'/>".format(rfid)
+            html += "<input type='text' name='title'/>"
+            html += "<input type='submit' value='PUT'/>"
+            html += "</form>"
             html += '</p>'
             lines.append(html)
         html = str()
