@@ -84,5 +84,14 @@ class UnWrapper(Resource):
             requests.delete(url)
             return redirect(url_for('home_page'))
 
+    def post(self):
+        method =request.form['method']
+        if method == 'PUT':
+            rfid = request.form['rfid']
+            title = request.form['title']
+            url = url_for('jukebox', _external=True) + '/{}'.format(rfid)
+            requests.put(url, data={'title': title})
+            return redirect(url_for('home_page'))
+
 if __name__=='__main__':
     main()
