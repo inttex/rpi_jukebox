@@ -4,14 +4,17 @@ from functools import partial
 import os
 import pickle
 
-from flask import Flask, render_template
+from flask import Flask, render_template, url_for
 from flask_restful import Resource, Api
 
 from rpi_jukebox.api import resources, homepage
 
 def main():
     app = initiate_api()
-    app.run(debug=True)
+    # app.run(debug=True)
+    with app.test_request_context():
+            url = url_for('jukebox', rfid=123, _external=True)
+            print(url)
 
 def initiate_api():
 
@@ -25,6 +28,7 @@ def initiate_api():
     api = Api(app)
 
     api.add_resource(resources.Jukebox, '/jukebox')
+    api.add_resource(resources.UnWrapper, '/unwrapper')
     api.add_resource(resources.Music, '/jukebox/<rfid>')
 
     @app.route('/')

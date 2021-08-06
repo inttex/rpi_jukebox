@@ -1,8 +1,9 @@
 import os
 import pickle
 
-from flask import request
+from flask import request, url_for
 from flask_restful import Resource, abort
+import requests
 
 def main():
     print(musics)
@@ -71,6 +72,15 @@ class Music(Resource):
         musics[rfid] = title
         save_db(musics)
         return title, 201
+
+class UnWrapper(Resource):
+
+    def get(self):
+        method = request.args.get('method')
+        if method == 'DELETE':
+            rfid = request.args.get('rfid')
+            url = url_for('jukebox', _external=True) + '/{}'.format(rfid)
+            requests.delete(url)
 
 if __name__=='__main__':
     main()

@@ -12,11 +12,11 @@ scripts=['bin/run_api', 'bin/run_client']
 install_requires=[
     'flask',
     'flask_restful',
+    'requests',
     # 'pandas',
     # 'numpy',
     # 'seaborn',
     # 'scipy',
-    # 'requests',
     # 'engineering_notation',
     # 'pyvisa',
     # 'pyvisa-py',
