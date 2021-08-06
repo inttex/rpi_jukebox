@@ -52,7 +52,8 @@ class Jukebox(Resource):
         abort_if_rfid_is_already_defined(rfid)
         musics[rfid] = None
         save_db(musics)
-        return rfid, 201
+        # return rfid, 201
+        return redirect(url_for('home_page'))
 
 class Music(Resource):
     def get(self, rfid):
