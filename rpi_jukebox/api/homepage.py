@@ -16,7 +16,10 @@ def main():
 def index(musics):
         lines = list()
         for rfid, title in musics.items():
-            html = "<p> {}: {}</p>".format(rfid, title)
+            html = str()
+            html += '<p>'
+            html +='{}: {}'.format(rfid, title)
+            html += '</p>'
             lines.append(html)
         lines.append("<form method=post action=/jukebox> <input type='text' name='rfid'/><input type='submit' value='post'/></form>")
         html_content = os.linesep.join(lines)
