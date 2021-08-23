@@ -42,8 +42,7 @@ def home_page():
     except IOError:
         print('could not access or find last parameter file')
         musics = dict()
-    html_content = homepage.index(musics)
-    # return render_template('index.html', musics=musics)
+    html_content = homepage.index()
     return html_content
 
 signal.signal(signal.SIGTERM, partial(stop_server))

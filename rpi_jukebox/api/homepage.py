@@ -16,9 +16,12 @@ def main():
         return html_content
     app.run(debug=True)
 
-def index(musics):
+def index():
         lines = list()
-        for rfid, title in musics.items():
+        musics = Musics.query.all()
+        for elements in musics:
+            rfid = elements.rfid
+            title = elements.title
             html = str()
             html += '<p>'
             html += "<form method=get action=/unwrapper style='float: left;'>"
