@@ -2,6 +2,8 @@ import os
 
 from flask import Flask, render_template, url_for
 
+from rpi_jukebox.api import models
+
 def main():
     musics = {'123': 'titre1', '124': 'titre2'}
     html_content = index(musics)
