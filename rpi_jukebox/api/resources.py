@@ -58,8 +58,8 @@ class Jukebox(Resource):
         db_session.add(u)
         try:
             db_session.commit()
-        except exc.SQLAlchemyError:
-            abort(422, message='error: rfid {} is probably already in the database'.format(rfid))
+        except exc.SQLAlchemyError as e:
+            abort(422, message=repr(e))
         # abort_if_rfid_is_already_defined(rfid)
         # musics[rfid] = None
         # save_db(musics)
