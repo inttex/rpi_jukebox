@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, String
 
-from api.database import Base
+from rpi_jukebox.api.database import Base
 
 # from flask_sqlalchemy import SQLAlchemy
 
