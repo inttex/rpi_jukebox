@@ -13,7 +13,8 @@ install_requires=[
     'flask',
     'flask_restful',
     'requests',
-    'Flask-SQLAlchemy'
+    'Flask-SQLAlchemy',
+    'ipython'
     # 'pandas',
     # 'numpy',
     # 'seaborn',
