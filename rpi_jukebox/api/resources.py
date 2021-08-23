@@ -48,7 +48,7 @@ except IOError:
 class Jukebox(Resource):
 
     def get(self):
-        return musics
+        return Musics.query.all()
 
     def post(self):
         rfid = request.form['rfid']
