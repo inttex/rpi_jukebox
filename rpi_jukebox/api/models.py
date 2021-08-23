@@ -10,3 +10,6 @@ class Musics(db.Model):
 
     def __repr__(self):
         return '<Musics %r>' % self.title
+
+if __name__=='__main__':
+    db.create_all()
