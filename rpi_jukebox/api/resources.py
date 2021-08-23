@@ -81,8 +81,8 @@ class Music(Resource):
     def put(self, rfid):
         element = query_by_rfid(rfid)
         title = request.form['title']
-        musics[rfid] = title
-        save_db(musics)
+        element.title = title
+        db_session.commit()
         return title, 201
 
 class UnWrapper(Resource):
