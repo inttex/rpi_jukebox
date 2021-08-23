@@ -1,10 +1,14 @@
-from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import Column, Integer, String
 
-from rpi_jukebox.api.views import app
+from api.database import Base
 
-db = SQLAlchemy(app)
+# from flask_sqlalchemy import SQLAlchemy
 
-class Musics(db.Model):
+# from rpi_jukebox.api.views import app
+
+# db = SQLAlchemy(app)
+
+class Musics(Base):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(80), unique=True, nullable=False)
 
