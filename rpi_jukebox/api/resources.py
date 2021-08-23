@@ -4,6 +4,7 @@ import pickle
 from flask import request, url_for, redirect
 from flask_restful import Resource, abort
 import requests
+from sqlalchemy import exc
 
 from rpi_jukebox.api.database import db_session
 from rpi_jukebox.api.models import Musics
@@ -48,13 +49,20 @@ except IOError:
 class Jukebox(Resource):
 
     def get(self):
-        return Musics.query.all()
+        answer = [(el.rfid, el.title) for el in Musics.query.all()]
+        return answer
 
     def post(self):
         rfid = request.form['rfid']
-        abort_if_rfid_is_already_defined(rfid)
-        musics[rfid] = None
-        save_db(musics)
+        u = Musics(rfid=rfid)
+        db_session.add(u)
+        try:
+            db_session.commit()
+        except exc.SQLAlchemyError:
+            abort(422, message='error: rfid {} is probably already in the database'.format(rfid))
+        # abort_if_rfid_is_already_defined(rfid)
+        # musics[rfid] = None
+        # save_db(musics)
         # return rfid, 201
         return redirect(url_for('home_page'))
 
