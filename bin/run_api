@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import rpi_jukebox
+from rpi_jukebox.api import app
 
-app = rpi_jukebox.api.views.initiate_api()
+# app = rpi_jukebox.api.views.initiate_api()
 app.run(debug=True)
