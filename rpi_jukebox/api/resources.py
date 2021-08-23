@@ -73,9 +73,12 @@ class Music(Resource):
         return title
 
     def delete(self, rfid):
-        abort_if_music_doesnt_exist(rfid)
-        del musics[rfid]
-        save_db(musics)
+        r = Musics.query.filter(Musics.rfid==rfid)
+        if r.count()==0:
+            abort(404, message="rfid {} doesn't exist".format(rfid))
+        element = r.first()
+        db_session.delete(element)
+        db_session.commit()
         return '', 204
 
     def put(self, rfid):
