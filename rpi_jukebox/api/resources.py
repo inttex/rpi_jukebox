@@ -5,6 +5,9 @@ from flask import request, url_for, redirect
 from flask_restful import Resource, abort
 import requests
 
+from rpi_jukebox.api.database import db_session
+from rpi_jukebox.api.models import Musics
+
 def main():
     print(musics)
 
