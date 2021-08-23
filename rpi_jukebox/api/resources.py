@@ -15,9 +15,11 @@ def main():
 LOCAL_DIRECTORY = os.path.join(os.path.dirname(__file__), '..', 'db')
 DB_FILENAME = os.path.join(LOCAL_DIRECTORY, 'musics.pickle')
 
-def abort_if_music_doesnt_exist(rfid):
-    if rfid not in musics:
+def query_by_rfid(rfid):
+    r = Musics.query.filter(Musics.rfid==rfid)
+    if r.count()==0:
         abort(404, message="rfid {} doesn't exist".format(rfid))
+    return r.first()
 
 def abort_if_music_is_empty(rfid):
     if not musics[rfid]:
@@ -64,25 +66,20 @@ class Jukebox(Resource):
 
 class Music(Resource):
     def get(self, rfid):
-        r = Musics.query.filter(Musics.rfid==rfid)
-        if r.count()==0:
-            abort(404, message="rfid {} doesn't exist".format(rfid))
-        title = r.first().title
+        element = query_by_rfid(rfid)
+        title = element.title
         if title is None:
             abort(410, message="there is no music for rfid {}".format(rfid))
         return title
 
     def delete(self, rfid):
-        r = Musics.query.filter(Musics.rfid==rfid)
-        if r.count()==0:
-            abort(404, message="rfid {} doesn't exist".format(rfid))
-        element = r.first()
+        element = query_by_rfid(rfid)
         db_session.delete(element)
         db_session.commit()
         return '', 204
 
     def put(self, rfid):
-        abort_if_music_doesnt_exist(rfid)
+        element = query_by_rfid(rfid)
         title = request.form['title']
         musics[rfid] = title
         save_db(musics)
