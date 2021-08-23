@@ -60,17 +60,17 @@ class Jukebox(Resource):
             db_session.commit()
         except exc.SQLAlchemyError as e:
             abort(422, message=repr(e))
-        # abort_if_rfid_is_already_defined(rfid)
-        # musics[rfid] = None
-        # save_db(musics)
-        # return rfid, 201
         return redirect(url_for('home_page'))
 
 class Music(Resource):
     def get(self, rfid):
-        abort_if_music_doesnt_exist(rfid)
-        abort_if_music_is_empty(rfid)
-        return musics[rfid]
+        r = Musics.query.filter(Musics.rfid==rfid)
+        if r.count()==0:
+            abort(404, message="rfid {} doesn't exist".format(rfid))
+        title = r.first().title
+        if title is None:
+            abort(410, message="there is no music for rfid {}".format(rfid))
+        return title
 
     def delete(self, rfid):
         abort_if_music_doesnt_exist(rfid)
