@@ -8,6 +8,8 @@ from flask import Flask, render_template, url_for
 from flask_restful import Resource, Api
 
 from rpi_jukebox.api import resources, homepage
+from rpi_jukebox.api.database import db_session
+
 
 LOCAL_DIRECTORY = os.path.join(os.path.dirname(__file__), '..', 'db')
 DB_FILENAME = os.path.join(LOCAL_DIRECTORY, 'musics.pickle')
@@ -15,6 +17,10 @@ DB_FILENAME = os.path.join(LOCAL_DIRECTORY, 'musics.pickle')
 app = Flask(__name__)
 app.config.from_object('rpi_jukebox.api.config')
 # To get one variable, tape app.config['MY_VARIABLE']
+@app.teardown_request
+def shutdown_session(exception=None):
+    db_session.remove()
+
 api = Api(app)
 
 api.add_resource(resources.Jukebox, '/jukebox')
