@@ -5,6 +5,7 @@ from flask import request, url_for, redirect, make_response
 from flask_restful import Resource, abort
 import requests
 from sqlalchemy import exc
+from requests_toolbelt import MultipartEncoder
 
 from rpi_jukebox.api.database import db_session
 from rpi_jukebox.api.models import Musics
@@ -52,7 +53,6 @@ class Music(Resource):
         element = query_by_rfid(rfid)
         title = request.form['title']
         element.title = title
-        print(request.files['wavfile'])
         try:
             db_session.commit()
         except exc.SQLAlchemyError as e:
@@ -76,7 +76,7 @@ class UnWrapper(Resource):
             wavfile = request.files['wavfile']
             title = wavfile.filename
             url = url_for('jukebox', _external=True) + '/{}'.format(rfid)
-            r = requests.put(url, data={'title': title}, files={'wavfile': wavfile})
+            r = requests.put(url, data={'title': title})
             if r.status_code == 201:
                 answer = redirect(url_for('home_page'))
             else:
