@@ -53,6 +53,10 @@ class Music(Resource):
         element = query_by_rfid(rfid)
         title = request.form['title']
         element.title = title
+        print(request.form)
+        print(request.files)
+        # wavfile = request.files['wavefile']
+        # print(wavfile.filename)
         try:
             db_session.commit()
         except exc.SQLAlchemyError as e:
@@ -76,7 +80,8 @@ class UnWrapper(Resource):
             wavfile = request.files['wavfile']
             title = wavfile.filename
             url = url_for('jukebox', _external=True) + '/{}'.format(rfid)
-            r = requests.put(url, data={'title': title})
+            data=MultipartEncoder(fields={'title': title, 'wavfile': ('wavfile', wavfile, 'text/plain')})
+            r = requests.put(url, data=data, headers={'Content-Type': data.content_type})
             if r.status_code == 201:
                 answer = redirect(url_for('home_page'))
             else:
