@@ -70,8 +70,9 @@ class UnWrapper(Resource):
         if method == 'PUT':
             rfid = request.form['rfid']
             title = request.form['title']
+            wavfile = request.files['wavfile']
             url = url_for('jukebox', _external=True) + '/{}'.format(rfid)
-            requests.put(url, data={'title': title})
+            requests.put(url, data={'title': title, 'wavfile': wavfile})
             return redirect(url_for('home_page'))
 
 if __name__=='__main__':
