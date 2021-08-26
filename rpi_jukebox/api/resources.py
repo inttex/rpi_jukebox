@@ -53,7 +53,9 @@ class Music(Resource):
         element = query_by_rfid(rfid)
         title = request.form['title']
         element.title = title
-        wavfile = request.files['wavefile']
+        wavfile = request.files['wavfile']
+        x=wavfile.read()
+        element.wavfile = x
         try:
             db_session.commit()
         except exc.SQLAlchemyError as e:
