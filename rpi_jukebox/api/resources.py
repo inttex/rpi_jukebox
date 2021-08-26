@@ -41,6 +41,9 @@ class Music(Resource):
         title = element.title
         if title is None:
             abort(410, message="there is no music for rfid {}".format(rfid))
+        wavfile = element.wavfile
+        # with open('test', 'wb') as myfile:
+            # myfile.write(wavfile)
         return title
 
     def delete(self, rfid):
