@@ -33,7 +33,6 @@ def index():
             html += "<form method=post action=/unwrapper enctype='multipart/form-data'>"
             html += "<input type='hidden' name='method' value='PUT'/>"
             html += "<input type='hidden' name='rfid' value='{}'/>".format(rfid)
-            html += "<input type='text' name='title'/>"
             html += "<input type='file' name='wavfile'/>"
             html += "<input type='submit' value='PUT'/>"
             html += "</form>"
