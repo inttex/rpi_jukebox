@@ -15,7 +15,8 @@ install_requires=[
     'requests',
     'Flask-SQLAlchemy',
     'ipython',
-    'xdg'
+    'xdg',
+    'requests-toolbelt'
     # 'pandas',
     # 'numpy',
     # 'seaborn',
