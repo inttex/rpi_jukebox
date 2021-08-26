@@ -52,7 +52,10 @@ class Music(Resource):
         element = query_by_rfid(rfid)
         title = request.form['title']
         element.title = title
-        db_session.commit()
+        try:
+            db_session.commit()
+        except exc.SQLAlchemyError as e:
+            abort(422, message=repr(e))
         return title, 201
 
 class UnWrapper(Resource):
