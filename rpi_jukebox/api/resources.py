@@ -1,7 +1,7 @@
 import os
 import pickle
 
-from flask import request, url_for, redirect
+from flask import request, url_for, redirect, make_response
 from flask_restful import Resource, abort
 import requests
 from sqlalchemy import exc
@@ -75,8 +75,12 @@ class UnWrapper(Resource):
             title = request.form['title']
             wavfile = request.files['wavfile']
             url = url_for('jukebox', _external=True) + '/{}'.format(rfid)
-            requests.put(url, data={'title': title, 'wavfile': wavfile})
-            return redirect(url_for('home_page'))
+            r = requests.put(url, data={'title': title, 'wavfile': wavfile})
+            if r.status_code == 201:
+                answer = redirect(url_for('home_page'))
+            else:
+                answer = r.text, r.status_code
+            return answer
 
 if __name__=='__main__':
     main()
