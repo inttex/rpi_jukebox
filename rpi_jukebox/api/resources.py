@@ -12,41 +12,11 @@ from rpi_jukebox.api.models import Musics
 def main():
     print(musics)
 
-LOCAL_DIRECTORY = os.path.join(os.path.dirname(__file__), '..', 'db')
-DB_FILENAME = os.path.join(LOCAL_DIRECTORY, 'musics.pickle')
-
 def query_by_rfid(rfid):
     r = Musics.query.filter(Musics.rfid==rfid)
     if r.count()==0:
         abort(404, message="rfid {} doesn't exist".format(rfid))
     return r.first()
-
-def abort_if_music_is_empty(rfid):
-    if not musics[rfid]:
-        abort(410, message="there is no music for rfid {}".format(rfid))
-
-def abort_if_rfid_is_already_defined(rfid):
-    if rfid in musics.keys():
-        abort(422, message='rfid {} is already in the database'.format(rfid))
-
-def save_db(musics):
-    try:
-        with open(DB_FILENAME, 'wb') as myfile:
-            pickle.dump(musics, myfile)
-    except IOError:
-        print('could not access or find last parameter file')
-
-
-try:
-    with open(DB_FILENAME, 'rb') as myfile:
-        musics = pickle.load(myfile)
-except EOFError:
-    print('last parameter file is probably empty..')
-    musics = dict()
-except IOError:
-    print('could not access or find last parameter file')
-    musics = dict()
-
 
 class Jukebox(Resource):
 
