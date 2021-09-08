@@ -24,19 +24,19 @@ def index():
             title = elements.title
             html = str()
             html += '<p>'
-            html += "<form method=get action=/unwrapper style='float: left;'>"
+            html += "<form method=get action=/unwrapper style='width=200px; display:inline-block;'>"
             html +="<label>{}: {}</label>".format(rfid, title)
             html += "<input type='hidden' name='method' value='DELETE'/>"
             html += "<input type='hidden' name='rfid' value='{}'/>".format(rfid)
             html += "<input type='submit' value='DELETE'/>"
             html += "</form>"
-            html += "<form method=post action=/unwrapper enctype='multipart/form-data'>"
+            html += "<form method=post action=/unwrapper enctype='multipart/form-data' style='width=200px; display:inline-block;'>"
             html += "<input type='hidden' name='method' value='PUT'/>"
             html += "<input type='hidden' name='rfid' value='{}'/>".format(rfid)
             html += "<input type='file' name='wavfile'/>"
             html += "<input type='submit' value='PUT'/>"
             html += "</form>"
-            html += "<form method=get action=/jukebox/{}>".format(rfid)
+            html += "<form method=get action=/jukebox/{} style='width=200px; display:inline-block;'>".format(rfid)
             html += "<input type='submit' value='GET'/>"
             html += "</form>"
             html += '</p>'
