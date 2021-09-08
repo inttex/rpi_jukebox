@@ -36,6 +36,9 @@ def index():
             html += "<input type='file' name='wavfile'/>"
             html += "<input type='submit' value='PUT'/>"
             html += "</form>"
+            html += "<form method=get action=/jukebox/{}>".format(rfid)
+            html += "<input type='submit' value='GET'/>"
+            html += "</form>"
             html += '</p>'
             lines.append(html)
         html = str()
