@@ -16,18 +16,9 @@ install_requires=[
     'Flask-SQLAlchemy',
     'ipython',
     'xdg',
-    'requests-toolbelt'
-    # 'pandas',
-    # 'numpy',
-    # 'seaborn',
-    # 'scipy',
-    # 'engineering_notation',
-    # 'pyvisa',
-    # 'pyvisa-py',
-    # 'PySerial',
-    # 'pyusb',
-    # 'allantools',
-    # 'pyvisa-sim'
+    'requests-toolbelt',
+    'simpleaudio',
+    'keyboard'
     ]
 
 setup(name='rpi_jukebox',
