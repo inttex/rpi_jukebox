@@ -10,16 +10,14 @@ import simpleaudio
 HOST = 'http://localhost:5000'
 
 def main():
-    resource = HOST + '/jukebox'
-    rfid = 4
-    rsp = requests.get(resource + '/{}'.format(rfid))
-    status = rsp.status_code
-    if status == 404:
-        print('no resource, create a new one')
-    elif status == 200:
-        print('play music')
-    else:
-        print('no music, do nothing')
+    run()
+    # resource = HOST + '/jukebox'
+    # rfid = 4
+    # rsp = requests.get(resource + '/{}'.format(rfid))
+    # status = rsp.status_code
+    # print(status)
+    # create_new_resource(rfid)
+    # play_music(rsp, False)
 
 def run():
     play_obj = False
