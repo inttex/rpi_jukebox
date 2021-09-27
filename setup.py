@@ -8,7 +8,7 @@ Created on August, 4th, 2021
 
 from setuptools import setup
 
-scripts=['bin/run_api', 'bin/run_client']
+scripts=['bin/run_api', 'bin/run_client', 'bin/create_db']
 install_requires=[
     'flask',
     'flask_restful',

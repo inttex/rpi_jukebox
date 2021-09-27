@@ -1,0 +1,5 @@
+#!/usr/bin/env python
+
+import rpi_jukebox.api.database as db
+
+db.init_db()
