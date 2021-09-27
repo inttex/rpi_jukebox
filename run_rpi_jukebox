@@ -1,0 +1,5 @@
+#!/bin/bash
+
+source ~/.virtualenvs/rpi_jukebox/bin/activate
+run_api&
+run_client&
