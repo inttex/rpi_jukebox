@@ -3,6 +3,7 @@ import warnings
 import sys
 import os
 import requests
+import wave
 
 import keyboard
 import simpleaudio
@@ -11,13 +12,13 @@ HOST = 'http://localhost:5000'
 
 def main():
     # run()
-    # resource = HOST + '/jukebox'
-    rfid = 4
-    # rsp = requests.get(resource + '/{}'.format(rfid))
-    # status = rsp.status_code
-    # print(status)
-    create_new_resource(rfid)
-    # play_music(rsp, False)
+    resource = HOST + '/jukebox'
+    rfid = 1
+    rsp = requests.get(resource + '/{}'.format(rfid))
+    status = rsp.status_code
+    print(status)
+    # create_new_resource(rfid)
+    play_music(rsp, False)
 
 def run():
     play_obj = False
@@ -47,10 +48,15 @@ def play_music(rsp, play_obj):
     if play_obj:
         play_obj.stop()
     print('play music')
+    binary = rsp.content
+    wave_read = wave.open(binary)
+    x = wave_read.getsamplewidth()
+    print(x)
             # msg = 'play {}\n'.format(music)
             # print(msg)
-    # wave_obj = simpleaudio.WaveObject.from_wave_file(os.path.join(MUSIC_DIRECTORY, music))
+    # wave_obj = simpleaudio.WaveObject(binary)
     # play_obj =wave_obj.play()
+    # play_obj = simpleaudio.play_buffer(binary)
     return play_obj
 
 if __name__=='__main__':
