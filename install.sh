@@ -11,7 +11,11 @@ then
 	mkdir -p ~/bin
 	cp "`dirname $0`/run_rpi_jukebox" ~/bin
 	chmod +x ~/bin/run_rpi_jukebox
-	"crontab"
+	mkdir -p ~/.log
+	crontab -l > tempfile
+	echo "@reboot ~/bin/run_rpi_jukebox >> ~/.log/jukebox 2>&1" >> tempfile
+	crontab tempfile
+	rm tempfile
 else
 	echo "please run this script as root. create one if necessary with the command:
 	sudo passwd root"
