@@ -11,14 +11,16 @@ import simpleaudio
 HOST = 'http://localhost:5000'
 
 def main():
-    run()
-    # resource = HOST + '/jukebox'
-    # rfid = 1
-    # rsp = requests.get(resource + '/{}'.format(rfid))
-    # status = rsp.status_code
-    # print(status)
+    # run()
+    resource = HOST + '/jukebox'
+    rfid = 1
+    rsp = requests.get(resource + '/{}'.format(rfid))
+    status = rsp.status_code
+    print(status)
     # # create_new_resource(rfid)
-    # play_music(rsp, False)
+    play_obj = play_music(rsp, False)
+    play_obj.wait_done()
+
 
 def run():
     play_obj = False
