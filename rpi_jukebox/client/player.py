@@ -11,15 +11,16 @@ import simpleaudio
 HOST = 'http://localhost:5000'
 
 def main():
+    run()
     # run()
-    resource = HOST + '/jukebox'
-    rfid = 1
-    rsp = requests.get(resource + '/{}'.format(rfid))
-    status = rsp.status_code
-    print(status)
+    # resource = HOST + '/jukebox'
+    # rfid = 1
+    # rsp = requests.get(resource + '/{}'.format(rfid))
+    # status = rsp.status_code
+    # print(status)
     # # create_new_resource(rfid)
-    play_obj = play_music(rsp, False)
-    play_obj.wait_done()
+    # play_obj = play_music(rsp, False)
+    # play_obj.wait_done()
 
 
 def run():
@@ -53,15 +54,9 @@ def play_music(rsp, play_obj):
     binary = rsp.content
     with open('temp.wav', 'wb') as myfile:
         myfile.write(binary)
-    # wave_read = wave.open(binary)
-    # x = wave_read.getsamplewidth()
-    # print(x)
-            # msg = 'play {}\n'.format(music)
-            # print(msg)
     wave_obj = simpleaudio.WaveObject.from_wave_file('temp.wav')
-    # os.remove('temp.wav')
     play_obj =wave_obj.play()
-    # play_obj = simpleaudio.play_buffer(binary)
+    os.remove('temp.wav')
     return play_obj
 
 if __name__=='__main__':
