@@ -33,17 +33,9 @@ def stop_server(signal, frame):
 
 @app.route('/')
 def home_page():
-    try:
-        with open(DB_FILENAME, 'rb') as myfile:
-            musics = pickle.load(myfile)
-    except EOFError:
-        print('last parameter file is probably empty..')
-        musics = dict()
-    except IOError:
-        print('could not access or find last parameter file')
-        musics = dict()
-    html_content = homepage.index()
-    return html_content
+    # html_content = homepage.index()
+    # return html_content
+    return render_template('index.html')
 
 signal.signal(signal.SIGTERM, partial(stop_server))
 signal.signal(signal.SIGINT, partial(stop_server))
