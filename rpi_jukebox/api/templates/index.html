@@ -2,7 +2,15 @@
 {% block content %}
 <ul>
 {% for element in musics %}
-	<li> {{ element.rfid }}: {{ element.title }}</li>
+	<li>
+		<form method=get action=/unwrapper style='width=200px; display:inline-block;'>
+			<label>{{ element.rfid }}: {{ element.title }}</label>
+			<input type='hidden' name='method' value='DELETE'/>
+			<input type='hidden' name='rfid' value='{{ element.rfid }}'/>
+			<input type='submit' value='DELETE'/>
+		</form>
+		{# {{ element.rfid }}: {{ element.title }} #}
+	</li>
 {% endfor %}
 </ul>
 {% endblock %}
