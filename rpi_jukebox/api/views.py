@@ -9,7 +9,7 @@ from flask_restful import Resource, Api
 
 from rpi_jukebox.api import resources, homepage
 from rpi_jukebox.api.database import db_session
-
+from rpi_jukebox.api.models import Musics
 
 LOCAL_DIRECTORY = os.path.join(os.path.dirname(__file__), '..', 'db')
 DB_FILENAME = os.path.join(LOCAL_DIRECTORY, 'musics.pickle')
@@ -35,7 +35,8 @@ def stop_server(signal, frame):
 def home_page():
     # html_content = homepage.index()
     # return html_content
-    return render_template('index.html')
+    musics = Musics.query.all()
+    return render_template('index.html', musics=musics)
 
 signal.signal(signal.SIGTERM, partial(stop_server))
 signal.signal(signal.SIGINT, partial(stop_server))

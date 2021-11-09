@@ -1,4 +1,8 @@
 {% extends 'base.html' %}
 {% block content %}
-<p> du text </p>
+<ul>
+{% for element in musics %}
+	<li> {{ element.rfid }}: {{ element.title }}</li>
+{% endfor %}
+</ul>
 {% endblock %}
