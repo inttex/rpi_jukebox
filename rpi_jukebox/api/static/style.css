@@ -2,3 +2,16 @@
 {
 	display: flex;
 }
+
+.delete
+{
+	background-color: green
+}
+.put
+{
+	background-color: yellow
+}
+.get
+{
+	background-color: red
+}
