@@ -3,27 +3,38 @@
 <p> Raspberry Jukebox </p>
 {% endblock %}
 {% block body %}
-<ul>
-{% for element in musics %}
-	<li>
-		<form method=get action=/unwrapper style='width=200px; display:inline-block;'>
-			<label>{{ element.rfid }}: {{ element.title }}</label>
-			<input type='hidden' name='method' value='DELETE'/>
-			<input type='hidden' name='rfid' value='{{ element.rfid }}'/>
-			<input type='submit' value='DELETE'/>
-		</form>
-		<form method=post action=/unwrapper enctype='multipart/form-data' style='width=200px; display:inline-block;'>
-			<input type='hidden' name='method' value='PUT'/>
-			<input type='hidden' name='rfid' value='{{ element.rfid }}'/>
-			<input type='file' name='wavfile'/>
-			<input type='submit' value='PUT'/>
-		</form>
-		<form method=get action=/jukebox/{{ element.rfid }} style='width=200px; display:inline-block;'>
-			<input type='submit' value='GET'/>
-		</form>
-	</li>
-{% endfor %}
-</ul>
+<div id='db_list'>
+	{% for element in musics %}
+		<div class='db_element'>
+			<div class='element_title'>
+				{{ element.rfid }}: {{ element.title }}
+			</div>
+			<div class='element_forms'>
+				<div class='element_form'>
+					<form method=get action=/unwrapper>
+						<input type='hidden' name='method' value='DELETE'/>
+						<input type='hidden' name='rfid' value='{{ element.rfid }}'/>
+						<input type='submit' value='DELETE'/>
+					</form>
+				</div>
+				<div class='element_form'>
+					<form method=post action=/unwrapper enctype='multipart/form-data'>
+						<input type='hidden' name='method' value='PUT'/>
+						<input type='hidden' name='rfid' value='{{ element.rfid }}'/>
+						<input type='file' name='wavfile'/>
+						<input type='submit' value='PUT'/>
+					</form>
+				</div>
+				<div class='element_form'>
+					<form method=get action=/jukebox/{{ element.rfid }}>
+						<input type='submit' value='GET'/>
+					</form>
+				</div>
+			</div>
+
+		</div>
+	{% endfor %}
+</div>
 {% endblock %}
 {% block footer %}
 <form method=post action=/jukebox>
