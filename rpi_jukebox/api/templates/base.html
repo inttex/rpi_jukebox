@@ -5,8 +5,13 @@
         <title> Raspberry Jukebox</title>
 	<link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet">
     </head>
-
+    <header>
+	    <div id="header">{% block header %}{% endblock %}</div>
+    </header>
     <body>
-	    <div id="content">{% block content %}{% endblock %}</div>
+	    <div id="body">{% block body %}{% endblock %}</div>
     </body>
+    <footer>
+	    <div id="footer">{% block footer %}{% endblock %}</div>
+    </footer>
 </html>
