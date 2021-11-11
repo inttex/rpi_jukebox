@@ -10,36 +10,36 @@
 				{{ element.rfid }}: {{ element.title }}
 			</div>
 			<div class='element_forms'>
-				<div class='element_form'>
+				<div class='delete'>
 					<form method=get action=/unwrapper>
-						<div class='input'>
+						<div>
 							<input type='hidden' name='method' value='DELETE'/>
 						</div>
-						<div class='input'>
+						<div>
 							<input type='hidden' name='rfid' value='{{ element.rfid }}'/>
 						</div>
-						<div class='input'>
+						<div>
 							<input type='submit' value='DELETE'/>
 						</div>
 					</form>
 				</div>
-				<div class='element_form'>
+				<div class='put'>
 					<form method=post action=/unwrapper enctype='multipart/form-data'>
-						<div class='input'>
+						<div>
 							<input type='hidden' name='method' value='PUT'/>
 						</div>
-						<div class='input'>
+						<div>
 							<input type='hidden' name='rfid' value='{{ element.rfid }}'/>
 						</div>
-						<div class='input'>
+						<div>
 							<input type='file' name='wavfile'/>
 						</div>
-						<div class='input'>
+						<div>
 							<input type='submit' value='PUT'/>
 						</div>
 					</form>
 				</div>
-				<div class='element_form'>
+				<div class='get'>
 					<form method=get action=/jukebox/{{ element.rfid }}>
 						<div class='input'>
 							<input type='submit' value='GET'/>
