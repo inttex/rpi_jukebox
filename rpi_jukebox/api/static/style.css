@@ -2,6 +2,12 @@
 {
 	font-size: x-large;
 }
+#db_list
+{
+	display: flex;
+	flex-direction: column;
+	max-width: 600px;
+}
 .element_forms
 {
 	display: flex;
