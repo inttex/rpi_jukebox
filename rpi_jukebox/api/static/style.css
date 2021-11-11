@@ -5,6 +5,7 @@
 .element_forms
 {
 	display: flex;
+	margin: auto
 }
 
 .delete
@@ -22,4 +23,13 @@
 #db_list input
 {
 	background-color: rgba(255, 255, 255, 0);
+}
+.db_element
+{
+	display: flex;
+	flex-direction: column;
+}
+.element_title
+{
+	margin: auto
 }
