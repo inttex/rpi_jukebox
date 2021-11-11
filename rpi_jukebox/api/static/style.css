@@ -29,6 +29,7 @@
 	display: flex;
 	flex-direction: column;
 	background-color: aqua;
+	border: 3px blue solid;
 }
 .db_element:nth-of-type(odd)
 {
