@@ -1,3 +1,7 @@
+*
+{
+	font-size: x-large;
+}
 .element_forms
 {
 	display: flex;
@@ -5,13 +9,17 @@
 
 .delete
 {
-	background-color: green
+	background-color: green;
 }
 .put
 {
-	background-color: yellow
+	background-color: yellow;
 }
 .get
 {
-	background-color: red
+	background-color: red;
+}
+#db_list input
+{
+	background-color: rgba(255, 255, 255, 0);
 }
