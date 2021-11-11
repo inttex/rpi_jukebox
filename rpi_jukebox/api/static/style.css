@@ -30,6 +30,10 @@
 	flex-direction: column;
 	background-color: aqua;
 }
+.db_element:nth-of-type(odd)
+{
+	background-color: silver;
+}
 .element_title
 {
 	margin: auto
