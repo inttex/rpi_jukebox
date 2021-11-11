@@ -1,6 +1,10 @@
 {% extends 'base.html' %}
 {% block header %}
-<p> Raspberry Jukebox </p>
+<div id=header>
+	<div id=header_content>
+		Raspberry Jukebox
+	</div>
+</div>
 {% endblock %}
 {% block body %}
 <div id='db_list'>
@@ -53,9 +57,13 @@
 </div>
 {% endblock %}
 {% block footer %}
-<form method=post action=/jukebox>
-	<label for='rfid'>rfid no</label>:
-	<input type='number' name='rfid' id='rfid' value='1'/>
-	<input type='submit' value='NEW'/>
+<div id=footer>
+	<div>
+	<form method=post action=/jukebox>
+		<label for='rfid'>rfid no</label>:
+		<input type='number' name='rfid' id='rfid' value='1'/>
+		<input type='submit' value='NEW'/>
+	</div>
+</div>
 </form>
 {% endblock %}

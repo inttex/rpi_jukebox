@@ -33,3 +33,20 @@
 {
 	margin: auto
 }
+#header
+{
+	display: flex;
+	/*align-items: center;*/
+	justify-content: center;
+	/*background-color: blue;*/
+}
+/*#header_content*/
+/*{*/
+	/*margin: auto;*/
+	/*background-color: lime;*/
+/*}*/
+#footer
+{
+	display: flex;
+	justify-content: center;
+}
