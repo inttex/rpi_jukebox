@@ -1,5 +1,6 @@
 #!/bin/bash
 
+path=`dirname $0`
 if [ $UID = 0 ]
 then
 	mkdir -p ~/.virtualenvs
@@ -13,6 +14,7 @@ then
 	chmod +x ~/bin/run_rpi_jukebox
 	mkdir -p ~/.log
 	crontab -l > tempfile
+	echo "@reboot `realpath $path/update.sh` >> ~/.log/jukebox 2>&1" >> tempfile
 	echo "@reboot ~/bin/run_rpi_jukebox >> ~/.log/jukebox 2>&1" >> tempfile
 	crontab tempfile
 	rm tempfile
