@@ -1,6 +1,7 @@
 #!/bin/bash
 
 path=`dirname $0`
+git -C `dirname $0` fetch
 remote_commit=`git -C $path rev-parse origin/main`
 local_commit=`git -C $path rev-parse main`
 
