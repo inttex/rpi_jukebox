@@ -1,2 +1,0 @@
-update scripts: install and restart iff new updates
-include update scripts at startup
