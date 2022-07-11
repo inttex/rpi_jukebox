@@ -13,8 +13,8 @@ then
 	cp "`dirname $0`/run_rpi_jukebox" ~/bin
 	chmod +x ~/bin/run_rpi_jukebox
 	mkdir -p ~/.log
+	$path/create_update_shortcut.sh
 	crontab -l > tempfile
-	echo "@reboot `realpath $path/update.sh` >> ~/.log/jukebox 2>&1" >> tempfile
 	echo "@reboot ~/bin/run_rpi_jukebox >> ~/.log/jukebox 2>&1" >> tempfile
 	crontab tempfile
 	rm tempfile
