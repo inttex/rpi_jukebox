@@ -44,7 +44,7 @@ def index():
         html = str()
         html += "<form method=post action=/jukebox>"
         html += '<p>'
-        html += '<label>rfid no</label> : '
+        html += '<label>RFID no</label> : '
         html += "<input type='text' name='rfid'/>"
         html += "<input type='submit' value='NEW'/>"
         html += '</p>'
