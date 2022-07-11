@@ -26,6 +26,7 @@ api = Api(app)
 api.add_resource(resources.Jukebox, '/jukebox')
 api.add_resource(resources.UnWrapper, '/unwrapper')
 api.add_resource(resources.Music, '/jukebox/<rfid>')
+api.add_resource(resources.Update, '/update')
 
 def stop_server(signal, frame):
     print('stop api in clean way')
