@@ -1,5 +1,6 @@
 import os
 import pickle
+import subprocess
 
 from flask import request, url_for, redirect, make_response
 from flask_restful import Resource, abort
@@ -92,6 +93,12 @@ class UnWrapper(Resource):
             else:
                 answer = r.text, r.status_code
             return answer
+
+class Update(Resource):
+
+    def get(self):
+        subprocess.run('~/bin/update_rpi_jukebox')
+        return redirect(url_for('home_page'))
 
 if __name__=='__main__':
     main()
