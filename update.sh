@@ -15,9 +15,7 @@ then
 		source ~/.virtualenvs/rpi_jukebox/bin/activate
 		pip install `dirname $0`
 		deactivate
-		pkill run_api
-		pkill run_client
-		/root/bin/run_rpi_jukebox
+		reboot
 	else
 		echo "please run this script as root. create one if necessary with the command:
 		sudo passwd root"
