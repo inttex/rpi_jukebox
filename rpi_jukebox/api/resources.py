@@ -107,6 +107,13 @@ class APILog(Resource):
             text = myfile.read()
         return text
 
+class ClientLog(Resource):
+
+    def get(self):
+        with open(os.path.join(data_path, 'client_errors') as myfile:
+            text = myfile.read()
+        return text
+
 
 if __name__=='__main__':
     main()
