@@ -103,14 +103,14 @@ class Update(Resource):
 class APILog(Resource):
 
     def get(self):
-        with open(os.path.join(data_path, 'api_errors') as myfile:
+        with open(os.path.join(data_path, 'api_errors')) as myfile:
             text = myfile.read()
         return text
 
 class ClientLog(Resource):
 
     def get(self):
-        with open(os.path.join(data_path, 'client_errors') as myfile:
+        with open(os.path.join(data_path, 'client_errors')) as myfile:
             text = myfile.read()
         return text
 
