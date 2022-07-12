@@ -10,6 +10,7 @@ from requests_toolbelt import MultipartEncoder
 
 from rpi_jukebox.api.database import db_session
 from rpi_jukebox.api.models import Musics
+from rpi_jukebox.api.config import data_path
 
 def main():
     print(musics)
@@ -102,7 +103,10 @@ class Update(Resource):
 class APILog(Resource):
 
     def get(self):
-        with open('/root/
+        with open(os.path.join(data_path, 'api_errors') as myfile:
+            text = myfile.read()
+        return text
+
 
 if __name__=='__main__':
     main()
