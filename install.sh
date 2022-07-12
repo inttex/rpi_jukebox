@@ -15,7 +15,7 @@ then
 	mkdir -p ~/.log
 	$path/create_update_shortcut.sh
 	crontab -l > tempfile
-	echo "@reboot ~/bin/run_rpi_jukebox >> ~/.log/jukebox 2>&1" >> tempfile
+	echo "@reboot ~/bin/run_rpi_jukebox" >> tempfile
 	crontab tempfile
 	rm tempfile
 else
