@@ -99,5 +99,10 @@ class Update(Resource):
     def get(self):
         subprocess.run('/root/bin/update_rpi_jukebox')
 
+class APILog(Resource):
+
+    def get(self):
+        with open('/root/
+
 if __name__=='__main__':
     main()
