@@ -98,7 +98,6 @@ class Update(Resource):
 
     def get(self):
         subprocess.run('/root/bin/update_rpi_jukebox')
-        return redirect(url_for('home_page'))
 
 if __name__=='__main__':
     main()
