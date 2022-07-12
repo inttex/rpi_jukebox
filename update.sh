@@ -10,12 +10,14 @@ then
 	if [ $UID = 0 ]
 	then
 		git -C `dirname $0` pull
+		cp "`dirname $0`/run_rpi_jukebox" ~/bin
+		chmod +x ~/bin/run_rpi_jukebox
 		source ~/.virtualenvs/rpi_jukebox/bin/activate
 		pip install `dirname $0`
 		deactivate
 		pkill run_api
 		pkill run_client
-		~/bin/run_rpi_jukebox
+		/root/bin/run_rpi_jukebox
 	else
 		echo "please run this script as root. create one if necessary with the command:
 		sudo passwd root"
