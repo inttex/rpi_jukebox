@@ -10,6 +10,7 @@ from requests_toolbelt import MultipartEncoder
 
 from rpi_jukebox.api.database import db_session
 from rpi_jukebox.api.models import Musics
+from rpi_jukebox.utils import tools
 
 def main():
     print(musics)
@@ -121,6 +122,7 @@ class RandomStop(Resource):
 
     def post(self):
         current_app.config['PARAMETERS']['random_stop'] = not current_app.config['PARAMETERS']['random_stop']
+        tools.save_current_parameters(current_app.config['PARAMETERS'], current_app.config['LAST_PARAMETERS_FILE'])
         return redirect(url_for('home_page'))
 
 if __name__=='__main__':
