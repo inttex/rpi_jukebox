@@ -2,7 +2,7 @@ import os
 import pickle
 import subprocess
 
-from flask import request, url_for, redirect, make_response
+from flask import request, url_for, redirect, make_response, current_app
 from flask_restful import Resource, abort
 import requests
 from sqlalchemy import exc
@@ -10,7 +10,6 @@ from requests_toolbelt import MultipartEncoder
 
 from rpi_jukebox.api.database import db_session
 from rpi_jukebox.api.models import Musics
-from rpi_jukebox.api.config import data_path
 
 def main():
     print(musics)
@@ -103,14 +102,14 @@ class Update(Resource):
 class APILog(Resource):
 
     def get(self):
-        with open(os.path.join(data_path, 'api_errors')) as myfile:
+        with open(os.path.join(current_app.config['DATA_PATH'], 'api_errors')) as myfile:
             text = myfile.read()
         return text
 
 class ClientLog(Resource):
 
     def get(self):
-        with open(os.path.join(data_path, 'client_errors')) as myfile:
+        with open(os.path.join(current_app.config['DATA_PATH'], 'client_errors')) as myfile:
             text = myfile.read()
         return text
 
