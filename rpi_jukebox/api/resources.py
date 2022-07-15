@@ -113,6 +113,15 @@ class ClientLog(Resource):
             text = myfile.read()
         return text
 
+class RandomStop(Resource):
+
+    def get(self):
+        answer = current_app.config['PARAMETERS']['random_stop']
+        return answer
+
+    def post(self):
+        current_app.config['PARAMETERS']['random_stop'] = not current_app.config['PARAMETERS']['random_stop']
+        return redirect(url_for('home_page'))
 
 if __name__=='__main__':
     main()
