@@ -14,4 +14,4 @@ default_parameters = dict(
         random_stop=False,
         )
 
-parameters = tools.load_last_parameters(default_parameters, LAST_PARAMETERS_FILE)
+PARAMETERS = tools.load_last_parameters(default_parameters, LAST_PARAMETERS_FILE)

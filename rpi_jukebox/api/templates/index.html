@@ -19,6 +19,11 @@
 			<input type='submit' value='client log'/>
 		</div>
 	</form>
+	<div>
+	<form method=post action=/parameters/random_stop>
+		random stop: {{ 'on' if random_stop else 'off' }}
+		<input type='submit' value='TOGGLE'/>
+	</div>
 </div>
 {% endblock %}
 {% block body %}

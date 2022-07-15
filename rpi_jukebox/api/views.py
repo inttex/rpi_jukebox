@@ -39,7 +39,7 @@ def home_page():
     # html_content = homepage.index()
     # return html_content
     musics = Musics.query.all()
-    return render_template('index.html', musics=musics, random_stop=app.config['parameters']['random_stop'])
+    return render_template('index.html', musics=musics, random_stop=app.config['PARAMETERS']['random_stop'])
 
 signal.signal(signal.SIGTERM, partial(stop_server))
 signal.signal(signal.SIGINT, partial(stop_server))
