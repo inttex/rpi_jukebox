@@ -1,3 +1,2 @@
-include rpi_jukebox/db/.gitignore
 include rpi_jukebox/api/templates/*
 include rpi_jukebox/api/static/*
