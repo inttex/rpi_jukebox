@@ -5,7 +5,9 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 
-path = 'sqlite:///' + os.path.join(xdg.xdg_data_home(), 'rpi_jukebox', 'musics.db')
+from rpi_jukebox.api import config
+
+path = config.SQLALCHEMY_DATABASE_URI
 engine = create_engine(path, convert_unicode=True)
 db_session = scoped_session(sessionmaker(autocommit=False,
                                          autoflush=False,
