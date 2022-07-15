@@ -20,3 +20,17 @@ def load_last_parameters(default_parameters: dict, path: str):
         print('could not access or find last parameter file')
 
     return parameters
+
+def save_current_parameters(parameters: dict, path: str):
+    """TODO: Docstring for save_current_parameters.
+
+    :parameters: TODO
+    :path: TODO
+    :returns: TODO
+
+    """
+    try:
+        with open(path, 'w') as myfile:
+            json.dump(parameters, myfile)
+    except IOError:
+        print('could not access or find last parameter file')
