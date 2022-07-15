@@ -39,6 +39,9 @@ def run():
         if status == 404:
             create_new_resource(rfid)
         elif status == 200:
+            url = HOST + '/parameters/random_stop'
+            rsp = requests.get(url)
+            random_stop = rsp.json()
             play_obj = play_music(rsp, play_obj)
         else:
             print('no music, do nothing')
