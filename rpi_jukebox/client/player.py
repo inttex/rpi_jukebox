@@ -39,10 +39,12 @@ def run():
         if status == 404:
             create_new_resource(rfid)
         elif status == 200:
+            if play_obj:
+                play_obj.stop()
+            play_obj = play_music(rsp)
             url = HOST + '/parameters/random_stop'
             rsp = requests.get(url)
             random_stop = rsp.json()
-            play_obj = play_music(rsp, play_obj)
         else:
             print('no music, do nothing')
 
@@ -50,10 +52,7 @@ def create_new_resource(rfid):
     resource = HOST + '/jukebox'
     rsp = requests.post(resource, data={'rfid': rfid})
 
-def play_music(rsp, play_obj):
-    if play_obj:
-        play_obj.stop()
-    print('play music')
+def play_music(rsp):
     binary = rsp.content
     with open('temp.wav', 'wb') as myfile:
         myfile.write(binary)
