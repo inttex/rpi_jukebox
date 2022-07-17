@@ -3,12 +3,15 @@ import warnings
 import sys
 import os
 import threading
+import random
 
 import requests
 import keyboard
 import simpleaudio
 
 HOST = 'http://localhost:5000'
+TMIN = 10
+TMAX = 30
 
 def main():
     run()
@@ -45,6 +48,10 @@ def run():
             url = HOST + '/parameters/random_stop'
             rsp = requests.get(url)
             random_stop = rsp.json()
+            if random_stop:
+                time = random.randint(TMIN, TMAX)
+                random_stopper = threading.Timer(1, simpleaudio.PlayObject.stop, play_obj)
+                random_stopper.start()
         else:
             print('no music, do nothing')
 
@@ -57,7 +64,7 @@ def play_music(rsp):
     with open('temp.wav', 'wb') as myfile:
         myfile.write(binary)
     wave_obj = simpleaudio.WaveObject.from_wave_file('temp.wav')
-    play_obj =wave_obj.play()
+    play_obj = wave_obj.play()
     os.remove('temp.wav')
     return play_obj
 
