@@ -2,9 +2,9 @@ import datetime
 import warnings
 import sys
 import os
-import requests
-import wave
+import threading
 
+import requests
 import keyboard
 import simpleaudio
 
