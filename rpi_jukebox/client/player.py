@@ -50,7 +50,7 @@ def run():
             random_stop = rsp.json()
             if random_stop:
                 time = random.randint(TMIN, TMAX)
-                random_stopper = threading.Timer(1, simpleaudio.PlayObject.stop, play_obj)
+                random_stopper = threading.Timer(1, simpleaudio.stop_all)
                 random_stopper.start()
         else:
             print('no music, do nothing')
