@@ -28,6 +28,7 @@ def main():
 
 def run():
     play_obj = False
+    previous_rfid = None
     while True:
         with warnings.catch_warnings():
             warnings.simplefilter('ignore', category=UserWarning)
@@ -42,9 +43,15 @@ def run():
         if status == 404:
             create_new_resource(rfid)
         elif status == 200:
-            if play_obj:
-                play_obj.stop()
-            play_obj = play_music(rsp)
+            if not rfid==previous_rfid:
+                simpleaudio.stop_all()
+                play_obj = play_music(rsp)
+            else:
+                if play_obj.is_playing():
+                    play_obj.pause()
+                    play_obj.resume()
+                else:
+                    play_obj = play_music(rsp)
             url = HOST + '/parameters/random_stop'
             rsp = requests.get(url)
             random_stop = rsp.json()
@@ -52,6 +59,7 @@ def run():
                 time = random.randint(TMIN, TMAX)
                 random_stopper = threading.Timer(time, play_obj.pause)
                 random_stopper.start()
+            previous_rfid = rfid
         else:
             print('no music, do nothing')
 
