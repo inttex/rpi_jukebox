@@ -115,10 +115,10 @@ class ClientLog(Resource):
             text = myfile.read()
         return text
 
-class RandomStop(Resource):
+class Parameters(Resource):
 
-    def get(self):
-        answer = current_app.config['PARAMETERS']['random_stop']
+    def get(self, name):
+        answer = current_app.config['PARAMETERS'][name]
         return answer
 
     def post(self):
