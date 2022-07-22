@@ -4,21 +4,10 @@
 	<div id=header_content>
 		Raspberry Jukebox
 	</div>
-	<form method=get action=/log/api>
-		<div class='input'>
-			<input type='submit' value='api log'/>
-		</div>
-	</form>
-	<form method=get action=/log/client>
-		<div class='input'>
-			<input type='submit' value='client log'/>
-		</div>
-	</form>
-	<div>
 	<form method=post action=/parameters/random_stop>
 		random stop: {{ 'on' if random_stop else 'off' }}
 		<input type='submit' value='TOGGLE'/>
-	</div>
+	</form>
 </div>
 {% endblock %}
 {% block body %}
