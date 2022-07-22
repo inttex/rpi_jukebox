@@ -26,7 +26,7 @@ api = Api(app)
 api.add_resource(resources.Jukebox, '/jukebox')
 api.add_resource(resources.UnWrapper, '/unwrapper')
 api.add_resource(resources.Music, '/jukebox/<rfid>')
-api.add_resource(resources.Update, '/update')
+api.add_resource(resources.Update, '/admin/update')
 api.add_resource(resources.APILog, '/log/api')
 api.add_resource(resources.ClientLog, '/log/client')
 api.add_resource(resources.RandomStop, '/parameters/random_stop')
@@ -37,10 +37,20 @@ def stop_server(signal, frame):
 
 @app.route('/')
 def home_page():
-    # html_content = homepage.index()
-    # return html_content
     musics = Musics.query.all()
     return render_template('index.html', musics=musics, random_stop=app.config['PARAMETERS']['random_stop'])
+
+@app.route('/admin')
+def admin_page():
+    return render_template('admin.html')
+
+@app.route('/log')
+def log_page():
+    return render_template('log.html')
+
+@app.route('/parameters')
+def parameters_page():
+    return render_template('parameters.html')
 
 signal.signal(signal.SIGTERM, partial(stop_server))
 signal.signal(signal.SIGINT, partial(stop_server))
