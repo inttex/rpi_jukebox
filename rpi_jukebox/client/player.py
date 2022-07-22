@@ -10,8 +10,8 @@ import keyboard
 import simpleaudio
 
 HOST = 'http://localhost:5000'
-TMIN = 10
-TMAX = 30
+TMIN = 5
+TMAX = 20
 
 def main():
     run()
@@ -50,7 +50,7 @@ def run():
             random_stop = rsp.json()
             if random_stop:
                 time = random.randint(TMIN, TMAX)
-                random_stopper = threading.Timer(1, simpleaudio.stop_all)
+                random_stopper = threading.Timer(time, simpleaudio.stop_all)
                 random_stopper.start()
         else:
             print('no music, do nothing')
