@@ -9,7 +9,7 @@
 {% for name, value in parameters.items() %}
 <form method=post action=/parameters/{{ name }}>
 	<label for='postpar'>{{ name }}</label>:
-	<input name='postpar' id='new_value' value={{ value }} />
+	<input name='new_value' id='postpar' value={{ value }} />
 	<input type='submit' value='change' />
 	</form>
 {% endfor %}
