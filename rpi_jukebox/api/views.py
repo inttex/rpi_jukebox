@@ -50,7 +50,7 @@ def log_page():
 
 @app.route('/parameters')
 def parameters_page():
-    return render_template('parameters.html')
+    return render_template('parameters.html', parameters=app.config['PARAMETERS'])
 
 signal.signal(signal.SIGTERM, partial(stop_server))
 signal.signal(signal.SIGINT, partial(stop_server))
