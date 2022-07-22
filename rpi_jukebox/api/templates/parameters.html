@@ -6,8 +6,13 @@
 </div>
 {% endblock %}
 {% block body %}
-<div>
-</div>
+{% for name, value in parameters.items() %}
+<form method=post action=/parameters/{{ parameters.name }}>
+	<label for='postpar'>{{ parameters.name }}</label>:
+	<input name='postpar' id='new_value' value={{ parameters.value }}/>
+		<input type='submit' value='change'/>
+	</form>
+{% endfor %}
 {% endblock %}
 {% block footer %}
 {% endblock %}
