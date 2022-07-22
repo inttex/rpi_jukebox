@@ -17,7 +17,7 @@ install_requires=[
     'ipython',
     'xdg',
     'requests-toolbelt',
-    'simpleaudio',
+    'complexaudio',
     'keyboard'
     ]
 
