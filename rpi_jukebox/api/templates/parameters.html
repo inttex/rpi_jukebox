@@ -7,9 +7,9 @@
 {% endblock %}
 {% block body %}
 {% for name, value in parameters.items() %}
-<form method=post action=/parameters/{{ parameters.name }}>
-	<label for='postpar'>{{ parameters.name }}</label>:
-	<input name='postpar' id='new_value' value={{ parameters.value }}/>
+<form method=post action=/parameters/{{ name }}>
+	<label for='postpar'>{{ name }}</label>:
+	<input name='postpar' id='new_value' value={{ value }}/>
 		<input type='submit' value='change'/>
 	</form>
 {% endfor %}
