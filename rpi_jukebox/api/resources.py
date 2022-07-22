@@ -122,10 +122,10 @@ class Parameters(Resource):
         return answer
 
     def post(self, name):
-        old_value = app.config['PARAMETERS'][name]
         if name=='random_stop':
             new_value = not current_app.config['PARAMETERS'][name]
         else:
+            old_value = current_app.config['PARAMETERS'][name]
             new_value = type(old_value)(request.form['new_value'])
         current_app.config['PARAMETERS'][name] = new_value
         tools.save_current_parameters(current_app.config['PARAMETERS'], current_app.config['LAST_PARAMETERS_FILE'])
