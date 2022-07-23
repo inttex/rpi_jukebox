@@ -5,6 +5,7 @@ import os
 import threading
 import random
 import logging
+import time
 
 import requests
 import keyboard
@@ -64,10 +65,11 @@ def run():
             rsp = requests.get(url)
             random_stop = rsp.json()
             if random_stop:
-                time = random.randint(TMIN, TMAX)
-                random_stopper = threading.Timer(time, play_obj.pause)
-                logging.info('the music of play object no %s will be paused in %s s', play_obj.play_id, time)
+                TIME = random.randint(TMIN, TMAX)
+                random_stopper = threading.Timer(TIME, play_obj.pause)
+                logging.info('the music of play object no %s will be paused in %s s', play_obj.play_id, TIME)
                 random_stopper.start()
+                time.sleep(TIME+1)
             previous_rfid = rfid
         else:
             logging.info('did not get a music, do nothing')
