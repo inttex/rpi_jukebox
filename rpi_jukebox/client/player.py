@@ -37,6 +37,7 @@ def run():
     while True:
         with warnings.catch_warnings():
             warnings.simplefilter('ignore', category=UserWarning)
+            logging.info('wait for next keyboard input...')
             recorded = keyboard.record(until='enter')
         rfid = ''.join([el for el in keyboard.get_typed_strings(recorded)])
         now = datetime.datetime.now()
