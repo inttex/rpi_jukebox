@@ -2,7 +2,7 @@ import os
 import pickle
 import subprocess
 
-from flask import request, url_for, redirect, make_response, current_app
+from flask import request, url_for, redirect, make_response, current_app, Response
 from flask_restful import Resource, abort
 import requests
 from sqlalchemy import exc
@@ -120,7 +120,7 @@ class ClientLog(Resource):
     def get(self):
         with open(current_app.config['CLIENT_LOG_FILE']) as myfile:
             text = myfile.read()
-        return text
+        return Response(text, mimetype='text/plain')
 
 
 class Parameters(Resource):
