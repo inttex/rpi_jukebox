@@ -1,6 +1,7 @@
 import os
 import pickle
 import subprocess
+import time
 
 from flask import request, url_for, redirect, make_response, current_app, Response
 from flask_restful import Resource, abort
@@ -104,15 +105,23 @@ class Update(Resource):
 class APILog(Resource):
 
     def get(self):
-        with open(os.path.join(current_app.config['DATA_PATH'], 'api_errors')) as myfile:
+        path = os.path.join(current_app.config['DATA_PATH'], 'api_errors')
+        ti_m = os.path.getmtime(path)
+        m_ti = time.ctime(ti_m)
+        with open(path) as myfile:
             text = myfile.read()
+        text = f'{m_ti}\n' + text
         return Response(text, mimetype='text/plain')
 
 class ClientError(Resource):
 
     def get(self):
-        with open(os.path.join(current_app.config['DATA_PATH'], 'client_errors')) as myfile:
+        path = os.path.join(current_app.config['DATA_PATH'], 'client_errors')
+        ti_m = os.path.getmtime(path)
+        m_ti = time.ctime(ti_m)
+        with open(path) as myfile:
             text = myfile.read()
+        text = f'{m_ti}\n' + text
         return Response(text, mimetype='text/plain')
 
 class ClientLog(Resource):
