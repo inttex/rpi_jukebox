@@ -46,6 +46,7 @@ def run():
         status = rsp.status_code
         if status == 404:
             create_new_resource(rfid)
+            logging.info('create new entry point for this rfid')
         elif status == 200:
             if not rfid==previous_rfid:
                 simpleaudio.stop_all()
