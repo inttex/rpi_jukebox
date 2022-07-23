@@ -62,6 +62,7 @@ def run():
             if random_stop:
                 time = random.randint(TMIN, TMAX)
                 random_stopper = threading.Timer(time, play_obj.pause)
+                logging.info('the music will be paused in %s s', time)
                 random_stopper.start()
             previous_rfid = rfid
         else:
