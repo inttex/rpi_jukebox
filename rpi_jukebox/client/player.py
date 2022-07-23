@@ -4,14 +4,19 @@ import sys
 import os
 import threading
 import random
+import logging
 
 import requests
 import keyboard
 import simpleaudio
 
+from rpi_jukebox.api.config import CLIENT_LOG_FILE
+
 HOST = 'http://localhost:5000'
 TMIN = 5
 TMAX = 20
+
+logging.basicConfig(filename=CLIENT_LOG_FILE, level=logging.DEBUG, format='%(asctime)s %(message)s')
 
 def main():
     run()

@@ -17,3 +17,5 @@ default_parameters = dict(
         )
 
 PARAMETERS = tools.load_last_parameters(default_parameters, LAST_PARAMETERS_FILE)
+
+CLIENT_LOG_FILE = os.path.join(DATA_PATH, 'client_log')
