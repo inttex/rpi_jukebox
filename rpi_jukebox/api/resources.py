@@ -108,12 +108,20 @@ class APILog(Resource):
             text = myfile.read()
         return text
 
-class ClientLog(Resource):
+class ClientError(Resource):
 
     def get(self):
         with open(os.path.join(current_app.config['DATA_PATH'], 'client_errors')) as myfile:
             text = myfile.read()
         return text
+
+class ClientLog(Resource):
+
+    def get(self):
+        with open(current_app.config['CLIENT_LOG_FILE']) as myfile:
+            text = myfile.read()
+        return text
+
 
 class Parameters(Resource):
 

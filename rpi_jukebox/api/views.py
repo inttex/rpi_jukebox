@@ -28,7 +28,8 @@ api.add_resource(resources.UnWrapper, '/unwrapper')
 api.add_resource(resources.Music, '/jukebox/<rfid>')
 api.add_resource(resources.Update, '/admin/update')
 api.add_resource(resources.APILog, '/log/api')
-api.add_resource(resources.ClientLog, '/log/client')
+api.add_resource(resources.ClientLog, '/log/client_log')
+api.add_resource(resources.ClientError, '/log/client_error')
 api.add_resource(resources.Parameters, '/parameters/<name>')
 
 def stop_server(signal, frame):
