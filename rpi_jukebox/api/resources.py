@@ -106,14 +106,14 @@ class APILog(Resource):
     def get(self):
         with open(os.path.join(current_app.config['DATA_PATH'], 'api_errors')) as myfile:
             text = myfile.read()
-        return text
+        return Response(text, mimetype='text/plain')
 
 class ClientError(Resource):
 
     def get(self):
         with open(os.path.join(current_app.config['DATA_PATH'], 'client_errors')) as myfile:
             text = myfile.read()
-        return text
+        return Response(text, mimetype='text/plain')
 
 class ClientLog(Resource):
 
