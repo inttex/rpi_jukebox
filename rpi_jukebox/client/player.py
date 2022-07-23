@@ -67,7 +67,7 @@ def run():
                 random_stopper.start()
             previous_rfid = rfid
         else:
-            print('no music, do nothing')
+            logging.info('did not get a music, do nothing')
 
 def create_new_resource(rfid):
     resource = HOST + '/jukebox'
