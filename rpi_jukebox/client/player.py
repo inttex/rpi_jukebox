@@ -40,8 +40,7 @@ def run():
             recorded = keyboard.record(until='enter')
         rfid = ''.join([el for el in keyboard.get_typed_strings(recorded)])
         now = datetime.datetime.now()
-        msg = 'detected rfid no {} at {}\n'.format(rfid, now)
-        print(msg)
+        logging.info('detected rfid no %s', rfid)
         resource = HOST + '/jukebox'
         rsp = requests.get(resource + '/{}'.format(rfid))
         status = rsp.status_code
