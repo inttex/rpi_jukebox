@@ -38,6 +38,8 @@ def run():
         with warnings.catch_warnings():
             warnings.simplefilter('ignore', category=UserWarning)
             logging.info('wait for next keyboard input...')
+            if play_obj:
+                logging.debug('the play object id is %s', play_obj.play_id)
             recorded = keyboard.record(until='enter')
         rfid = ''.join([el for el in keyboard.get_typed_strings(recorded)])
         now = datetime.datetime.now()
@@ -64,7 +66,7 @@ def run():
             if random_stop:
                 time = random.randint(TMIN, TMAX)
                 random_stopper = threading.Timer(time, play_obj.pause)
-                logging.info('the music will be paused in %s s', time)
+                logging.info('the music of play object no %s will be paused in %s s', play_obj.play_id, time)
                 random_stopper.start()
             previous_rfid = rfid
         else:
@@ -79,7 +81,7 @@ def play_music(rsp):
     with open('temp.wav', 'wb') as myfile:
         myfile.write(binary)
     wave_obj = simpleaudio.WaveObject.from_wave_file('temp.wav')
-    logging.info('start playing...')
+    logging.info('start playing play object no %s ...', play_obj.play_id)
     play_obj = wave_obj.play()
     os.remove('temp.wav')
     return play_obj
