@@ -76,6 +76,7 @@ def play_music(rsp):
     with open('temp.wav', 'wb') as myfile:
         myfile.write(binary)
     wave_obj = simpleaudio.WaveObject.from_wave_file('temp.wav')
+    logging.info('start playing...')
     play_obj = wave_obj.play()
     os.remove('temp.wav')
     return play_obj
