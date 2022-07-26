@@ -1,6 +1,8 @@
+
+
 def main():
     view = JukeboxView()
-    view._wait_for_input()
+    view.run()
 
 
 class JukeboxView():
@@ -18,7 +20,9 @@ class JukeboxView():
         self.controller = controller
 
     def run(self):
-        print('TODO: loop the view')
+        while True:
+            rfid = self._wait_for_input()
+            self.controller.process_rfid(rfid)
 
     def _wait_for_input(self):
         rfid = input('rfid?:\n')
