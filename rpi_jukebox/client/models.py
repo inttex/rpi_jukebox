@@ -46,11 +46,15 @@ class MusicLoader(object):
     """prepare the segment of music to be played"""
 
     def __init__(self):
-        """TODO: to be defined. """
         self.rfid = None
-        self.is_playing = False
+        self.random_stop = None
+        self.tmin = None
+        self.tmax = None
+        self.audio_segment = None
+        self.start_stop_times = list()
+        self.start_stop_index = 0
 
-    def get_sound(self, rfid, wav_file, random_stop=False, tmin=None, tmax=None):
+    def get_sound(self, wav_file):
         pass
 
 
