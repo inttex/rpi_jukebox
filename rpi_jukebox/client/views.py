@@ -17,16 +17,16 @@ class JukeboxView():
         self.controller = controller
 
     def run(self):
-        pass
+        print('TODO: loop the view')
 
     def wait_for_input(self):
-        pass
+        print('TODO: wait for user input')
 
     def play(self, sound):
-        pass
+        print('play a sound')
 
     def stop(self):
-        pass
+        print('stop all sound playing')
 
 
 if __name__ == '__main__':
