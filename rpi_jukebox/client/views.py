@@ -19,7 +19,7 @@ class JukeboxView():
     def run(self):
         print('TODO: loop the view')
 
-    def wait_for_input(self):
+    def _wait_for_input(self):
         print('TODO: wait for user input')
 
     def play(self, sound):
