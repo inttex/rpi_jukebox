@@ -5,7 +5,16 @@ def main():
 class JukeboxView():
 
     def __init__(self):
-        pass
+
+        self.controller = None
+
+    def set_controller(self, controller):
+        """
+        Set the controller
+        :param controller:
+        :return:
+        """
+        self.controller = controller
 
     def run(self):
         pass
