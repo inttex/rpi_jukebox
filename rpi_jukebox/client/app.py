@@ -1,9 +1,11 @@
 def main():
     run_jukebox_client()
 
+
 def run_jukebox_client():
     app = JukeboxApp()
     app.run()
+
 
 class JukeboxApp():
 
@@ -13,5 +15,6 @@ class JukeboxApp():
     def run(self):
         print('TODO: run a loop for jukebox')
 
-if __name__=='__main__':
+
+if __name__ == '__main__':
     main()
