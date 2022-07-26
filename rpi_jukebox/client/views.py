@@ -20,7 +20,8 @@ class JukeboxView():
         print('TODO: loop the view')
 
     def _wait_for_input(self):
-        print('TODO: wait for user input')
+        rfid = input('rfid?:')
+        return rfid
 
     def play(self, sound):
         print('play a sound')
