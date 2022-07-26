@@ -1,3 +1,7 @@
+def main():
+    print('ok')
+
+
 class JukeboxView():
 
     def __init__(self):
@@ -14,3 +18,7 @@ class JukeboxView():
 
     def stop(self):
         pass
+
+
+if __name__ == '__main__':
+    main()
