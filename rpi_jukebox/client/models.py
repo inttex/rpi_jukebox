@@ -1,5 +1,9 @@
 def main():
-    pass
+    api_communicator = APICommunicator()
+    rfid = 1
+    wav_file, success = api_communicator.get_music_file(rfid)
+    print(wav_file)
+    print(success)
 
 
 class APICommunicator(object):
@@ -13,10 +17,12 @@ class APICommunicator(object):
         """obtain wav file from server
 
         :rfid: TODO
-        :returns: TODO
+        :returns: wav_file, success
 
         """
-        pass
+        wav_file = None
+        success = False
+        return wav_file, success
 
     def get_random_stop(self):
         """TODO: Docstring for get_random_stop.
@@ -58,5 +64,5 @@ class MusicLoader(object):
         pass
 
 
-if __name__=='__main__':
+if __name__ == '__main__':
     main()
