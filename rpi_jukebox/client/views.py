@@ -1,5 +1,6 @@
 def main():
-    print('ok')
+    view = JukeboxView()
+    view._wait_for_input()
 
 
 class JukeboxView():
@@ -20,7 +21,7 @@ class JukeboxView():
         print('TODO: loop the view')
 
     def _wait_for_input(self):
-        rfid = input('rfid?:')
+        rfid = input('rfid?:\n')
         return rfid
 
     def play(self, sound):
