@@ -1,14 +1,12 @@
 import requests
+from requests.exceptions import ConnectionError
 
 
 def main():
     HOST = 'http://localhost:5000'
     api_communicator = APICommunicator(HOST)
-    api_communicator2 = APICommunicator('abc')
-    print(api_communicator.url)
-    print(api_communicator2.url)
-    # rfid = 1
-    # wav_file, success = api_communicator.get_music_file(rfid)
+    rfid = 1
+    wav_file= api_communicator.get_music_file(rfid)
     # print(wav_file)
     # print(success)
 
@@ -31,40 +29,27 @@ class APICommunicator(object):
     def get_music_file(self, rfid):
         """obtain wav file from server
 
-        :rfid: TODO
-        :returns: wav_file, success
+        :rfid:
+        :returns: wav_file
 
         """
-        url = f'{self.url['jukebox']}/{rfid}'
-
-        # rsp = requests.get(url)
-        # status = rsp.status_code
-        # if status == 404:
-            # create_new_resource(rfid)
-            # logging.info('create new entry point for this rfid')
-        # elif status == 200:
-            # if not rfid==previous_rfid:
-                # simpleaudio.stop_all()
-                # play_obj = play_music(rsp)
-            # else:
-                # if play_obj.is_playing():
-                    # play_obj.pause()
-                    # play_obj.resume()
-                # else:
-                    # play_obj = play_music(rsp)
-            # url = HOST + '/parameters/random_stop'
-            # rsp = requests.get(url)
-            # random_stop = rsp.json()
-            # if random_stop:
-                # TIME = random.randint(TMIN, TMAX)
-                # random_stopper = threading.Timer(TIME, play_obj.pause)
-                # logging.info('the music of play object no %s will be paused in %s s', play_obj.play_id, TIME)
-                # random_stopper.start()
-            # previous_rfid = rfid
-        # else:
-            # logging.info('did not get a music, do nothing')
 
         wav_file = None
+
+        url = self.url['jukebox'] + f'/{rfid}'
+        try:
+            rsp = requests.get(url)
+        except ConnectionError:
+            print('error:host not found')
+        else:
+            status = rsp.status_code
+            if status == 404:
+                self._create_new_resource(rfid)
+            elif status == 200:
+                wav_file = rsp.content
+            else:
+                print('did not get a answer')
+                # logging.info('did not get a music, do nothing')
         return wav_file
 
     def get_random_stop(self):
@@ -92,6 +77,7 @@ class APICommunicator(object):
     def _create_new_resource(self, rfid):
         url = self.url['jukebox']
         rsp = requests.post(url, data={'rfid': rfid})
+        # logging.info('create new entry point for this rfid')
 
 
 class MusicLoader(object):
@@ -108,6 +94,7 @@ class MusicLoader(object):
         self.start_stop_index = 0
 
     def get_sound(self, wav_file):
+                # logging.info('the music of play object no %s will be paused in %s s', play_obj.play_id, TIME)
         pass
 
 
