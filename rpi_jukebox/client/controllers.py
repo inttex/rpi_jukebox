@@ -27,11 +27,11 @@ class JukeboxController():
                 wav_file = None
             if success:
                 if wav_file:
-                    random_stop = self.apicommunicator.get_random_stop()
+                    random_stop = self.apicommunicator.get_parameter('random_stop')
                     self.musicloader.random_stop = random_stop
                     if random_stop:
-                        self.musicloader.tmin = self.apicommunicator.get_tmin()
-                        self.musicloader.tmax = self.apicommunicator.get_tmax()
+                        self.musicloader.tmin = self.apicommunicator.get_parameter('tmin')
+                        self.musicloader.tmax = self.apicommunicator.get_parameter('tmax')
                 sound = self.musicloader.get_sound(wav_file)
                 self.view.play(sound)
                 self.musicloader.rfid = rfid
