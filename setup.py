@@ -17,8 +17,9 @@ install_requires=[
     'ipython',
     'xdg',
     'requests-toolbelt',
-    'complexaudio',
-    'keyboard'
+    'keyboard',
+    'simpleaudio',
+    'pydub',
     ]
 
 setup(name='rpi_jukebox',
