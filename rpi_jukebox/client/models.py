@@ -125,7 +125,7 @@ class MusicLoader(object):
 
         if self.start_times is None:
             if self.random_stop:
-                self.start_times = self._create_start_times(length(self.song), self.tmin, self.tmax)
+                self.start_times = self._create_start_times(len(self.song), self.tmin, self.tmax)
             else:
                 self.start_times = [0]
             self.start_time_index = 0
