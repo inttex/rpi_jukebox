@@ -29,8 +29,13 @@ class JukeboxView():
         rfid = input('rfid?:\n')
         return rfid
 
-    def play(self, sound):
-        print('play a sound')
+    def play(self, seg):
+        simpleaudio.play_buffer(
+                seg.raw_data,
+                num_channels=seg.channels,
+                bytes_per_sample=seg.sample_width,
+                sample_rate=seg.frame_rate,
+                )
 
     def stop(self):
         simpleaudio.stop_all()
