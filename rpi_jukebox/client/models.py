@@ -5,7 +5,6 @@ from requests.exceptions import ConnectionError
 def main():
     HOST = 'http://localhost:5000'
     api_communicator = APICommunicator(HOST)
-    rfid = 1
     parameter = api_communicator.get_parameter('random_stop')
     print(parameter)
     parameter = api_communicator.get_parameter('tmin')
@@ -34,7 +33,9 @@ class APICommunicator(object):
     def __init__(self, host):
         """TODO: to be defined. """
         self.host = host
-        self.url ={name: self.host + '/' + entry for name, entry in self.entry_points.items()}
+        self.url = {
+                name: f'{self.host}/{entry}'
+                for name, entry in self.entry_points.items()}
 
     def get_music_file(self, rfid):
         """obtain wav file from server
@@ -83,17 +84,20 @@ class APICommunicator(object):
                 self._log_parameter_error(parameter_name, status)
         return parameter_value
 
-
     def _create_new_resource(self, rfid):
         url = self.url['jukebox']
-        rsp = requests.post(url, data={'rfid': rfid})
+        requests.post(url, data={'rfid': rfid})
         # logging.info('create new entry point for this rfid')
 
     def _log_host_not_found(self):
-            print('error:host not found')
+        print('error:host not found')
 
     def _log_parameter_error(self, parameter_name, status_code):
-        msg = f'I got status code {status_code} from the API after asking for the value of parameter {parameter_name}. I used the default value.'
+        msg = (
+                f'I got status code {status_code} from the API after asking'
+                f'for the value of parameter {parameter_name}.'
+                'I used the default value.')
+        print(msg)
 
 
 class MusicLoader(object):
@@ -110,7 +114,7 @@ class MusicLoader(object):
         self.start_stop_index = 0
 
     def get_sound(self, wav_file):
-                # logging.info('the music of play object no %s will be paused in %s s', play_obj.play_id, TIME)
+        # logging.info('the music of play object no %s will be paused in %s s', play_obj.play_id, TIME)
         pass
 
 
