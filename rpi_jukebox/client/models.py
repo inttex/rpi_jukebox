@@ -89,6 +89,10 @@ class APICommunicator(object):
         """
         pass
 
+    def _create_new_resource(self, rfid):
+        url = self.url['jukebox']
+        rsp = requests.post(url, data={'rfid': rfid})
+
 
 class MusicLoader(object):
 
