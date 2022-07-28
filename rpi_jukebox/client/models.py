@@ -113,8 +113,10 @@ class MusicLoader(object):
         self.song = None
         self.start_times = None
         self.start_time_index = None
+        "TODO: convert s to ms"
 
     def get_sound(self, wav_file):
+        "TODO if not random stop"
         if wav_file is not None:
             with open('temp.wav', 'wb') as myfile:
                 myfile.write(wav_file)
@@ -122,7 +124,24 @@ class MusicLoader(object):
             self.start_times = None
 
         if self.start_times is None:
-            self.start_times = self._create_start_times(length(self.song), self.tmin, self.tmax)
+            if self.random_stop:
+                self.start_times = self._create_start_times(length(self.song), self.tmin, self.tmax)
+            else:
+                self.start_times = [0]
+            self.start_time_index = 0
+
+        t1 = self.start_time[self.start_time_index]
+        if self.start_time_index < len(self.start_times)-1:
+            t2 = self.start_time[self.start_time_index + 1]
+            self.start_time_index += 1
+        else:
+            t2 = None
+            self.start_times = None
+
+        audio_segment = self.song[t1:t2]
+
+        return audio_segment
+
 
     def _create_start_times(self, total_length:int, tmin: int, tmax:int):
         """create random start times of random length between tmin and tmax
@@ -130,12 +149,11 @@ class MusicLoader(object):
         :total_length: TODO
         :tmin: TODO
         :tmax: TODO
-        :returns: list of start times
+        :returns: list of int start times
 
         """
         start_times = list()
         return start_times
-
 
 
 if __name__ == '__main__':
