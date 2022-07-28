@@ -6,7 +6,8 @@ def main():
     HOST = 'http://localhost:5000'
     api_communicator = APICommunicator(HOST)
     rfid = 1
-    wav_file= api_communicator.get_music_file(rfid)
+    random_stop = api_communicator.get_random_stop()
+    print(random_stop)
     # print(wav_file)
     # print(success)
 
@@ -19,6 +20,11 @@ class APICommunicator(object):
             random_stop='/parameters/random_stop',
             tmin='parameters/tmin',
             tmax='parameters/tmax',
+            )
+    default_values = dict(
+            random_stop=False,
+            tmin=None,
+            tmax=None,
             )
 
     def __init__(self, host):
@@ -48,7 +54,7 @@ class APICommunicator(object):
             elif status == 200:
                 wav_file = rsp.content
             else:
-                print('did not get a answer')
+                print('did not get a music')
                 # logging.info('did not get a music, do nothing')
         return wav_file
 
@@ -58,7 +64,20 @@ class APICommunicator(object):
         :returns: TODO
 
         """
-        pass
+        random_stop = self.default_values['random_stop']
+
+        url = self.url['random_stop']
+        try:
+            rsp = requests.get(url)
+        except ConnectionError:
+            self._log_host_not_found()
+        else:
+            status = rsp.status_code
+            if status == 200:
+                random_stop = rsp.content
+            else:
+                print('error:status code after random_stop request.used default value')
+        return random_stop
 
     def get_tmin(self):
         """TODO: Docstring for get_tmin.
