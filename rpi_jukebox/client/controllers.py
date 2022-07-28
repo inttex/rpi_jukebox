@@ -18,11 +18,13 @@ class JukeboxController():
     def process_rfid(self, rfid):
         if rfid is not None:
             self.view.stop()
+            success = True
             if not rfid == self.musicloader.rfid:
-                wav_file, success = self.apicommunicator.get_music_file(rfid)
+                wav_file = self.apicommunicator.get_music_file(rfid)
+                if wav_file is None:
+                    success = False
             else:
                 wav_file = None
-                success = True
             if success:
                 if wav_file:
                     random_stop = self.apicommunicator.get_random_stop()

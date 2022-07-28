@@ -1,3 +1,6 @@
+import requests
+
+
 def main():
     HOST = 'http://localhost:5000'
     api_communicator = APICommunicator(HOST)
@@ -34,7 +37,7 @@ class APICommunicator(object):
         """
         url = f'{self.url['jukebox']}/{rfid}'
 
-        # rsp = requests.get(resource + '/{}'.format(rfid))
+        # rsp = requests.get(url)
         # status = rsp.status_code
         # if status == 404:
             # create_new_resource(rfid)
@@ -62,8 +65,7 @@ class APICommunicator(object):
             # logging.info('did not get a music, do nothing')
 
         wav_file = None
-        success = False
-        return wav_file, success
+        return wav_file
 
     def get_random_stop(self):
         """TODO: Docstring for get_random_stop.
