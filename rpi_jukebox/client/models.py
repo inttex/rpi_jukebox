@@ -1,5 +1,6 @@
 import requests
 from requests.exceptions import ConnectionError
+from pydub import AudioSegment
 
 
 def main():
@@ -109,13 +110,32 @@ class MusicLoader(object):
         self.random_stop = None
         self.tmin = None
         self.tmax = None
-        self.audio_segment = None
-        self.start_stop_times = list()
-        self.start_stop_index = 0
+        self.song = None
+        self.start_times = None
+        self.start_time_index = None
 
     def get_sound(self, wav_file):
-        # logging.info('the music of play object no %s will be paused in %s s', play_obj.play_id, TIME)
-        pass
+        if wav_file is not None:
+            with open('temp.wav', 'wb') as myfile:
+                myfile.write(wav_file)
+            self.song = AudioSegment.from_wav('temp.wav')
+            self.start_times = None
+
+        if self.start_times is None:
+            self.start_times = self._create_start_times(length(self.song), self.tmin, self.tmax)
+
+    def _create_start_times(self, total_length:int, tmin: int, tmax:int):
+        """create random start times of random length between tmin and tmax
+
+        :total_length: TODO
+        :tmin: TODO
+        :tmax: TODO
+        :returns: list of start times
+
+        """
+        start_times = list()
+        return start_times
+
 
 
 if __name__ == '__main__':
