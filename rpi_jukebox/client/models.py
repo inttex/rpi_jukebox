@@ -6,8 +6,12 @@ def main():
     HOST = 'http://localhost:5000'
     api_communicator = APICommunicator(HOST)
     rfid = 1
-    random_stop = api_communicator.get_random_stop()
-    print(random_stop)
+    parameter = api_communicator.get_parameter('random_stop')
+    print(parameter)
+    parameter = api_communicator.get_parameter('tmin')
+    print(parameter)
+    parameter = api_communicator.get_parameter('tmax')
+    print(parameter)
     # print(wav_file)
     # print(success)
 
@@ -23,8 +27,8 @@ class APICommunicator(object):
             )
     default_values = dict(
             random_stop=False,
-            tmin=None,
-            tmax=None,
+            tmin=5,
+            tmax=20,
             )
 
     def __init__(self, host):
@@ -58,15 +62,15 @@ class APICommunicator(object):
                 # logging.info('did not get a music, do nothing')
         return wav_file
 
-    def get_random_stop(self):
-        """TODO: Docstring for get_random_stop.
+    def get_parameter(self, parameter_name):
+        """get a parameter from api
 
-        :returns: TODO
+        :returns: parameter value
 
         """
-        random_stop = self.default_values['random_stop']
+        parameter_value = self.default_values[parameter_name]
 
-        url = self.url['random_stop']
+        url = self.url[parameter_name]
         try:
             rsp = requests.get(url)
         except ConnectionError:
@@ -74,24 +78,11 @@ class APICommunicator(object):
         else:
             status = rsp.status_code
             if status == 200:
-                random_stop = rsp.content
+                parameter_value = rsp.content
             else:
-                print('error:status code after random_stop request.used default value')
-        return random_stop
+                self._log_parameter_error(parameter_name, status)
+        return parameter_value
 
-    def get_tmin(self):
-        """TODO: Docstring for get_tmin.
-        :returns: TODO
-
-        """
-        pass
-
-    def get_tmax(self):
-        """get max time for random_stop
-        :returns: TODO
-
-        """
-        pass
 
     def _create_new_resource(self, rfid):
         url = self.url['jukebox']
@@ -100,6 +91,9 @@ class APICommunicator(object):
 
     def _log_host_not_found(self):
             print('error:host not found')
+
+    def _log_parameter_error(self, parameter_name, status_code):
+        msg = f'I got status code {status_code} from the API after asking for the value of parameter {parameter_name}. I used the default value.'
 
 
 class MusicLoader(object):
