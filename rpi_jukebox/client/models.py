@@ -40,7 +40,7 @@ class APICommunicator(object):
         try:
             rsp = requests.get(url)
         except ConnectionError:
-            print('error:host not found')
+            self._log_host_not_found()
         else:
             status = rsp.status_code
             if status == 404:
@@ -78,6 +78,9 @@ class APICommunicator(object):
         url = self.url['jukebox']
         rsp = requests.post(url, data={'rfid': rfid})
         # logging.info('create new entry point for this rfid')
+
+    def _log_host_not_found(self):
+            print('error:host not found')
 
 
 class MusicLoader(object):
