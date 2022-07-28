@@ -1,5 +1,6 @@
 def main():
-    api_communicator = APICommunicator()
+    HOST = 'http://localhost:5000'
+    api_communicator = APICommunicator(HOST)
     rfid = 1
     wav_file, success = api_communicator.get_music_file(rfid)
     print(wav_file)
@@ -10,8 +11,9 @@ class APICommunicator(object):
 
     """communicate by requests to the api restless server"""
 
-    def __init__(self):
+    def __init__(self, host):
         """TODO: to be defined. """
+        self.host = host
 
     def get_music_file(self, rfid):
         """obtain wav file from server

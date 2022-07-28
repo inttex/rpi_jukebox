@@ -1,15 +1,16 @@
 def main():
-    run_jukebox_client()
+    HOST = 'http://localhost:5000'
+    run_jukebox_client(HOST)
 
 
-def run_jukebox_client():
-    app = JukeboxApp()
+def run_jukebox_client(host):
+    app = JukeboxApp(host)
     app.run()
 
 
 class JukeboxApp():
 
-    def __init__(self):
+    def __init__(self, host):
         print('TODO: initialize app')
 
     def run(self):

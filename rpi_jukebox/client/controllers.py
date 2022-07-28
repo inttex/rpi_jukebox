@@ -1,7 +1,8 @@
 def main():
+    HOST = 'http://localhost:5000'
     from rpi_jukebox.client.models import APICommunicator, MusicLoader
     from rpi_jukebox.client.views import JukeboxView
-    apicommunicator = APICommunicator()
+    apicommunicator = APICommunicator(HOST)
     musicloader = MusicLoader()
     view = JukeboxView()
     controller = JukeboxController(apicommunicator, musicloader, view)

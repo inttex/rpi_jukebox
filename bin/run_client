@@ -2,4 +2,8 @@
 
 from rpi_jukebox.client import app
 
-app.run_jukebox_client()
+
+HOST = 'http://localhost:5000'
+
+
+app.run_jukebox_client(HOST)
