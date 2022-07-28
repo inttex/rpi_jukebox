@@ -1,3 +1,4 @@
+import simpleaudio
 
 
 def main():
@@ -32,7 +33,7 @@ class JukeboxView():
         print('play a sound')
 
     def stop(self):
-        print('stop all sound playing')
+        simpleaudio.stop_all()
 
 
 if __name__ == '__main__':
