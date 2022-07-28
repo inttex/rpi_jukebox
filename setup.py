@@ -20,6 +20,7 @@ install_requires=[
     'keyboard',
     'simpleaudio',
     'pydub',
+    'flake8',
     ]
 
 setup(name='rpi_jukebox',
