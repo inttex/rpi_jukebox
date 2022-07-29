@@ -96,11 +96,27 @@ class UnWrapper(Resource):
                 answer = r.text, r.status_code
             return answer
 
+
 class Update(Resource):
 
     def get(self):
         subprocess.run('/root/bin/update_rpi_jukebox')
         return redirect(url_for('home_page'))
+
+
+class Reboot(Resource):
+
+    def get(self):
+        subprocess.run('reboot')
+        return redirect(url_for('home_page'))
+
+
+class PowerOff(Resource):
+
+    def get(self):
+        subprocess.run('poweroff')
+        return redirect(url_for('home_page'))
+
 
 class APILog(Resource):
 
