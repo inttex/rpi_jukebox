@@ -13,7 +13,7 @@ then
 	chmod +x /usr/local/bin/run_rpi_jukebox
 	$path/create_update_shortcut.sh
 	crontab -l > tempfile
-	echo "@reboot /usr/local/bin/run_rpi_jukebox" >> tempfile
+	echo "@reboot run_rpi_jukebox" >> tempfile
 	crontab tempfile
 	rm tempfile
 else
