@@ -4,8 +4,8 @@ path=`dirname $0`
 if [ $UID = 0 ]
 then
 	mkdir -p ~/.virtualenvs
-	python3 -m venv ~/.virtualenvs/rpi_jukebox
-	source ~/.virtualenvs/rpi_jukebox/bin/activate
+	python3 -m venv /usr/local/bin/rpi_jukebox
+	source /usr/local/bin/rpi_jukebox/bin/activate
 	pip install `dirname $0`
 	mkdir -p $HOME/.local/share/rpi_jukebox
 	create_db
