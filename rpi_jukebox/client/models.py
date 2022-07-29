@@ -1,3 +1,4 @@
+import os
 import random
 import warnings
 import logging
@@ -150,6 +151,7 @@ class MusicLoader(object):
             with open('temp.wav', 'wb') as myfile:
                 myfile.write(wav_file)
             self._song = AudioSegment.from_wav('temp.wav')
+            os.remove('temp.wav')
             self._start_times = None
 
         if self._start_times is None:
