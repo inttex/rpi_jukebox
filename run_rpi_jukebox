@@ -1,5 +1,0 @@
-#!/bin/bash
-
-source /usr/local/bin/rpi_jukebox/bin/activate
-run_api 2> /root/.local/share/rpi_jukebox/api_errors &
-run_client 2> /root/.local/share/rpi_jukebox/client_errors &
