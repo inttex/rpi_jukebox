@@ -30,8 +30,16 @@ def test_music_loader():
     HOST = 'http://localhost:5000/'
     api_communicator = APICommunicator(HOST)
     wav_file = api_communicator.get_music_file(2)
+    mu.random_stop = True
+    mu.tmax_ms =30000
+    mu.tmin_ms = 5000
     seg = mu.get_sound(wav_file)
     print(seg)
+    print(len(seg))
+    for i in range(10):
+        seg = mu.get_sound(None)
+        print(seg)
+        print(len(seg))
 
 
 class APICommunicator(object):
