@@ -100,7 +100,7 @@ class UnWrapper(Resource):
 class Update(Resource):
 
     def get(self):
-        subprocess.run('/root/bin/update_rpi_jukebox')
+        subprocess.run('update_rpi_jukebox')
         return redirect(url_for('home_page'))
 
 
