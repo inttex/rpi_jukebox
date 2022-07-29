@@ -25,7 +25,7 @@ def main():
 class APICommunicator(object):
 
     """communicate by requests to the api restless server"""
-    entry_points = {'jukebox': 'jukebox'j
+    entry_points = {'jukebox': 'jukebox'}
     default_values = dict(
             random_stop=False,
             tmin=5,
