@@ -9,6 +9,9 @@ with warnings.catch_warnings():
 
 
 def main():
+    test_api_comm_param()
+
+def test_api_comm_param():
     HOST = 'http://localhost:5000/'
     api_communicator = APICommunicator(HOST)
     parameter = api_communicator.get_parameter('tmin')
