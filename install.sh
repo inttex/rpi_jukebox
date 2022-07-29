@@ -9,13 +9,11 @@ then
 	pip install `dirname $0`
 	mkdir -p $HOME/.local/share/rpi_jukebox
 	create_db
-	mkdir -p ~/bin
-	cp "`dirname $0`/run_rpi_jukebox" ~/bin
-	chmod +x ~/bin/run_rpi_jukebox
-	mkdir -p ~/.log
+	cp "`dirname $0`/run_rpi_jukebox" /usr/local/bin
+	chmod +x /usr/local/bin/run_rpi_jukebox
 	$path/create_update_shortcut.sh
 	crontab -l > tempfile
-	echo "@reboot ~/bin/run_rpi_jukebox" >> tempfile
+	echo "@reboot /usr/local/bin/run_rpi_jukebox" >> tempfile
 	crontab tempfile
 	rm tempfile
 else
