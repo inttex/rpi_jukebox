@@ -1,0 +1,6 @@
+folders to rm:
+/root/bin
+/usr/src
+/root/.virtualenvs/rpi_jukebox
+
+crontab
