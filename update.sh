@@ -10,9 +10,9 @@ then
 	if [ $UID = 0 ]
 	then
 		git -C `dirname $0` pull
-		cp "`dirname $0`/run_rpi_jukebox" ~/bin
-		chmod +x ~/bin/run_rpi_jukebox
-		source ~/.virtualenvs/rpi_jukebox/bin/activate
+		cp "`dirname $0`/run_rpi_jukebox" /usr/local/bin
+		chmod +x /usr/local/bin/run_rpi_jukebox
+		source /usr/local/bin/rpi_jukebox/bin/activate
 		pip install `dirname $0`
 		deactivate
 	else
