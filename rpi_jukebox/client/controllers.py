@@ -36,9 +36,8 @@ class JukeboxController():
                         self.musicloader.tmin_ms = 1000 * self.apicommunicator.get_parameter('tmin')
                         self.musicloader.tmax_ms = 1000 * self.apicommunicator.get_parameter('tmax')
                 sound = self.musicloader.get_sound(wav_file)
-                if random_stop:
-                    duration = len(sound) /1000
-                    logging.info('the music will be stopped after %s', duration)
+                duration = len(sound) /1000
+                logging.info('the music will be stopped after %s', duration)
                 self.view.play(sound)
                 self.musicloader.rfid = rfid
 
