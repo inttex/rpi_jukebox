@@ -2,6 +2,7 @@ import logging
 
 
 import simpleaudio
+import keyboard
 
 
 def main():
@@ -30,7 +31,9 @@ class JukeboxView():
             self.controller.process_rfid(rfid)
 
     def _wait_for_input(self):
-        rfid = input('rfid?:\n')
+        logging.info('wait for next keyboard input...')
+        recorded = keyboard.record(until='enter')
+        rfid = ''.join([el for el in keyboard.get_typed_strings(recorded)])
         return rfid
 
     def play(self, seg):
