@@ -1,3 +1,5 @@
+import random
+
 import requests
 from requests.exceptions import ConnectionError
 from pydub import AudioSegment
@@ -144,13 +146,16 @@ class MusicLoader(object):
     def _create_start_times(self, total_length:int, tmin: int, tmax:int):
         """create random start times of random length between tmin and tmax
 
-        :total_length: TODO
-        :tmin: TODO
-        :tmax: TODO
+        :total_length: of audio segment (ms)
+        :tmin: in ms
+        :tmax: ms
         :returns: list of int start times
 
         """
-        start_times = list()
+        start_times = [0]
+        while total_length - start_times[-1] > tmax:
+            T = random.randint(tmin, tmax)
+            start_times.append(start_times[-1] + T)
         return start_times
 
 
