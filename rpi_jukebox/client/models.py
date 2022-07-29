@@ -1,8 +1,11 @@
 import random
+import warnings
 
 import requests
 from requests.exceptions import ConnectionError
-from pydub import AudioSegment
+with warnings.catch_warnings():
+    warnings.simplefilter('ignore', category=RuntimeWarning)
+    from pydub import AudioSegment
 
 
 def main():
@@ -10,12 +13,13 @@ def main():
     api_communicator = APICommunicator(HOST)
     parameter = api_communicator.get_parameter('random_stop')
     print(parameter)
+    print(type(parameter))
     parameter = api_communicator.get_parameter('tmin')
     print(parameter)
+    print(type(parameter))
     parameter = api_communicator.get_parameter('tmax')
     print(parameter)
-    # print(wav_file)
-    # print(success)
+    print(type(parameter))
 
 
 class APICommunicator(object):
@@ -82,7 +86,7 @@ class APICommunicator(object):
         else:
             status = rsp.status_code
             if status == 200:
-                parameter_value = rsp.content
+                parameter_value = rsp.json()
             else:
                 self._log_parameter_error(parameter_name, status)
         return parameter_value
