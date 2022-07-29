@@ -14,11 +14,15 @@ then
 	cp "`dirname $0`/jukebox_client" /usr/local/bin
 	chmod +x /usr/local/bin/jukebox_client
 	$path/create_update_shortcut.sh
-	crontab -l > tempfile
-	echo "@reboot jukebox_server" >> tempfile
-	echo "@reboot jukebox_client" >> tempfile
-	crontab tempfile
-	rm tempfile
+	cp "`dirname $0`/jukebox_client.service" /etc/systemd/system/
+	chmod 755 /etc/systemd/system/jukebox_client.service
+	cp "`dirname $0`/jukebox_server.service" /etc/systemd/system/
+	chmod 755 /etc/systemd/system/jukebox_server.service
+	systemctl daemon-reload
+	systemctl enable jukebox_server
+	systemctl enable jukebox_client
+	systemctl start jukebox_client
+	systemctl start jukebox_server
 else
 	echo "please run this script as root. create one if necessary with the command:
 	sudo passwd root"
