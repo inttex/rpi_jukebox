@@ -26,6 +26,7 @@ class JukeboxView():
     def run(self):
         while True:
             rfid = self._wait_for_input()
+            logging.info('detected rfid no %s', rfid)
             self.controller.process_rfid(rfid)
 
     def _wait_for_input(self):
@@ -42,7 +43,6 @@ class JukeboxView():
                 )
 
     def stop(self):
-        logging.info('music is stopped')
         simpleaudio.stop_all()
 
 

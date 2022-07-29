@@ -164,6 +164,7 @@ class MusicLoader(object):
             else:
                 self._start_times = [0]
             self._start_time_index = 0
+        logging.info('segment %s/%s', self._start_time_index+1, len(self._start_times))
 
         t1 = self._start_times[self._start_time_index]
         if self._start_time_index < len(self._start_times)-1:
