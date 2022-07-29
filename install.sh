@@ -3,7 +3,7 @@
 path=`dirname $0`
 if [ $UID = 0 ]
 then
-	mkdir -p ~/.virtualenvs
+	apt install -y python3-dev libasound2-dev
 	python3 -m venv /usr/local/bin/rpi_jukebox
 	source /usr/local/bin/rpi_jukebox/bin/activate
 	pip install `dirname $0`
