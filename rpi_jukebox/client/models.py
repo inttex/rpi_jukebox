@@ -9,7 +9,7 @@ with warnings.catch_warnings():
 
 
 def main():
-    test_api_comm_param()
+    test_music_loader()
 
 def test_api_comm_param():
     HOST = 'http://localhost:5000/'
@@ -20,6 +20,11 @@ def test_api_comm_param():
     print(parameter, type(parameter))
     parameter = api_communicator.get_parameter('random_stop')
     print(parameter, type(parameter))
+
+def test_music_loader():
+    mu = MusicLoader()
+    start_times = mu._create_start_times(30000,3000,10000)
+    print(start_times)
 
 
 class APICommunicator(object):
