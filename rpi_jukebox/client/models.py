@@ -11,15 +11,9 @@ with warnings.catch_warnings():
 def main():
     HOST = 'http://localhost:5000/'
     api_communicator = APICommunicator(HOST)
-    parameter = api_communicator.get_parameter('random_stop')
-    print(parameter)
-    print(type(parameter))
-    parameter = api_communicator.get_parameter('tmin')
-    print(parameter)
-    print(type(parameter))
-    parameter = api_communicator.get_parameter('tmax')
-    print(parameter)
-    print(type(parameter))
+    rfid = 2
+    wav_file = api_communicator.get_music_file(rfid)
+    print(type(wav_file))
 
 
 class APICommunicator(object):
@@ -90,10 +84,10 @@ class APICommunicator(object):
     def _create_new_resource(self, rfid):
         url = self.url['jukebox']
         rsp = requests.post(url, data={'rfid': rfid})
-        if rsp.status_code == 201:
+        if rsp.ok:
             print(f'new resource created for rfid {rfid}')
         else:
-            print(f'failed to create new resource for rfid {rfid}. status code={status_code}')
+            print(f'failed to create new resource for rfid {rfid}. status code={rsp.status_code}')
 
     def _log_host_not_found(self):
         print('error:host not found')
