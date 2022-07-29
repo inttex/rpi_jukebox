@@ -1,5 +1,5 @@
 def main():
-    HOST = 'http://localhost:5000'
+    HOST = 'http://localhost:5000/'
     run_jukebox_client(HOST)
 
 
