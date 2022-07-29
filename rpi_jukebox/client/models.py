@@ -89,8 +89,11 @@ class APICommunicator(object):
 
     def _create_new_resource(self, rfid):
         url = self.url['jukebox']
-        requests.post(url, data={'rfid': rfid})
-        # logging.info('create new entry point for this rfid')
+        rsp = requests.post(url, data={'rfid': rfid})
+        if rsp.status_code == 201:
+            print(f'new resource created for rfid {rfid}')
+        else:
+            print(f'failed to create new resource for rfid {rfid}. status code={status_code}')
 
     def _log_host_not_found(self):
         print('error:host not found')
