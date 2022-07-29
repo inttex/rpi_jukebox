@@ -125,7 +125,11 @@ class MusicLoader(object):
 
         if self._start_times is None:
             if self.random_stop:
-                self._start_times = self._create_start_times(len(self.song), self.tmin_ms, self.tmax_ms)
+                self._start_times = self._create_start_times(
+                        len(self.song),
+                        self.tmin_ms,
+                        self.tmax_ms,
+                        )
             else:
                 self._start_times = [0]
             self._start_time_index = 0
@@ -142,8 +146,7 @@ class MusicLoader(object):
 
         return audio_segment
 
-
-    def _create_start_times(self, total_length:int, tmin: int, tmax:int):
+    def _create_start_times(self, total_length: int, tmin: int, tmax: int):
         """create random start times of random length between tmin and tmax
 
         :total_length: of audio segment (ms)
