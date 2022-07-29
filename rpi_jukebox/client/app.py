@@ -1,3 +1,8 @@
+from rpi_jukebox.client.models import MusicLoader, APICommunicator
+from rpi_jukebox.client.views import JukeboxView
+from rpi_jukebox.client.controllers import JukeboxController
+
+
 def main():
     HOST = 'http://localhost:5000/'
     run_jukebox_client(HOST)
@@ -11,10 +16,14 @@ def run_jukebox_client(host):
 class JukeboxApp():
 
     def __init__(self, host):
-        print('TODO: initialize app')
+        music_loader = MusicLoader()
+        api_communicator = APICommunicator(host)
+        self._view = JukeboxView()
+        controller = JukeboxController(api_communicator, music_loader, self._view)
+        self._view.set_controller(controller)
 
     def run(self):
-        print('TODO: run a loop for jukebox')
+        self._view.run()
 
 
 if __name__ == '__main__':
