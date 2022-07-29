@@ -17,6 +17,7 @@ then
 		source /usr/local/bin/rpi_jukebox/bin/activate
 		pip install `dirname $0`
 		deactivate
+		systemctl restart jukebox_client
 	else
 		echo "please run this script as root. create one if necessary with the command:
 		sudo passwd root"
