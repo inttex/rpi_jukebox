@@ -1,6 +1,13 @@
+import logging
+
+
 from rpi_jukebox.client.models import MusicLoader, APICommunicator
 from rpi_jukebox.client.views import JukeboxView
 from rpi_jukebox.client.controllers import JukeboxController
+from rpi_jukebox.api.config import CLIENT_LOG_FILE
+
+
+logging.basicConfig(filename=CLIENT_LOG_FILE, level=logging.INFO, format='%(asctime)s:%(levelname)s:%(message)s')
 
 
 def main():
@@ -23,6 +30,7 @@ class JukeboxApp():
         self._view.set_controller(controller)
 
     def run(self):
+        logging.info('start the client')
         self._view.run()
 
 

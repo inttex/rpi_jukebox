@@ -1,3 +1,6 @@
+import logging
+
+
 def main():
     HOST = 'http://localhost:5000'
     from rpi_jukebox.client.models import APICommunicator, MusicLoader
@@ -33,6 +36,9 @@ class JukeboxController():
                         self.musicloader.tmin_ms = 1000 * self.apicommunicator.get_parameter('tmin')
                         self.musicloader.tmax_ms = 1000 * self.apicommunicator.get_parameter('tmax')
                 sound = self.musicloader.get_sound(wav_file)
+                if random_random_stop:
+                    duration = len(sound) /1000
+                    logging.info('the music will be stopped after %s', duration)
                 self.view.play(sound)
                 self.musicloader.rfid = rfid
 

@@ -1,5 +1,7 @@
 import random
 import warnings
+import logging
+
 
 import requests
 from requests.exceptions import ConnectionError
@@ -10,6 +12,7 @@ with warnings.catch_warnings():
 
 def main():
     test_music_loader()
+
 
 def test_api_comm_param():
     HOST = 'http://localhost:5000/'
@@ -23,15 +26,16 @@ def test_api_comm_param():
     wav_file = api_communicator.get_music_file(2)
     print(type(wav_file))
 
+
 def test_music_loader():
     mu = MusicLoader()
-    start_times = mu._create_start_times(30000,3000,10000)
+    start_times = mu._create_start_times(30000, 3000, 10000)
     print(start_times)
     HOST = 'http://localhost:5000/'
     api_communicator = APICommunicator(HOST)
     wav_file = api_communicator.get_music_file(2)
     mu.random_stop = True
-    mu.tmax_ms =30000
+    mu.tmax_ms = 30000
     mu.tmin_ms = 5000
     seg = mu.get_sound(wav_file)
     print(seg)
@@ -82,8 +86,7 @@ class APICommunicator(object):
             elif status == 200:
                 wav_file = rsp.content
             else:
-                print('did not get a music')
-                # logging.info('did not get a music, do nothing')
+                logging.info('did not get a music, do nothing')
         return wav_file
 
     def get_parameter(self, parameter_name):
@@ -111,19 +114,22 @@ class APICommunicator(object):
         url = self._url['jukebox']
         rsp = requests.post(url, data={'rfid': rfid})
         if rsp.ok:
-            print(f'new resource created for rfid {rfid}')
+            logging.info('new resource created for rfid %s', rfid)
         else:
-            print(f'failed to create new resource for rfid {rfid}. status code={rsp.status_code}')
+            logging.error(
+                    'failed to create new resource'
+                    ' for rfid %s. status code=%s',
+                    rfid, rsp.status_code)
 
     def _log_host_not_found(self):
-        print('error:host not found')
+        logging.error('host not found')
 
     def _log_parameter_error(self, parameter_name, status_code):
-        msg = (
-                f'I got status code {status_code} from the API after asking'
-                f'for the value of parameter {parameter_name}.'
-                'I used the default value.')
-        print(msg)
+        logging.error(
+                'I got status code %s from the API after asking'
+                'for the value of parameter %s.'
+                'I used the default value.',
+                status_code, parameter_name)
 
 
 class MusicLoader(object):

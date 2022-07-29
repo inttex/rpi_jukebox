@@ -1,3 +1,6 @@
+import logging
+
+
 import simpleaudio
 
 
@@ -30,6 +33,7 @@ class JukeboxView():
         return rfid
 
     def play(self, seg):
+        logging.info('play the music')
         simpleaudio.play_buffer(
                 seg.raw_data,
                 num_channels=seg.channels,
@@ -38,6 +42,7 @@ class JukeboxView():
                 )
 
     def stop(self):
+        logging.info('music is stopped')
         simpleaudio.stop_all()
 
 
