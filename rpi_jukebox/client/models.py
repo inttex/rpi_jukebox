@@ -9,7 +9,7 @@ with warnings.catch_warnings():
 
 
 def main():
-    HOST = 'http://localhost:5000'
+    HOST = 'http://localhost:5000/'
     api_communicator = APICommunicator(HOST)
     parameter = api_communicator.get_parameter('random_stop')
     print(parameter)
@@ -25,23 +25,19 @@ def main():
 class APICommunicator(object):
 
     """communicate by requests to the api restless server"""
-    entry_points = dict(
-            jukebox='/jukebox',
-            random_stop='/parameters/random_stop',
-            tmin='parameters/tmin',
-            tmax='parameters/tmax',
-            )
+    entry_points = {'jukebox': 'jukebox'j
     default_values = dict(
             random_stop=False,
             tmin=5,
             tmax=20,
             )
+    for name in default_values:
+        entry_points[name] = f'parameters/{name}'
 
     def __init__(self, host):
-        """TODO: to be defined. """
         self.host = host
         self.url = {
-                name: f'{self.host}/{entry}'
+                name: self.host + entry
                 for name, entry in self.entry_points.items()}
 
     def get_music_file(self, rfid):
