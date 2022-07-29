@@ -20,11 +20,18 @@ def test_api_comm_param():
     print(parameter, type(parameter))
     parameter = api_communicator.get_parameter('random_stop')
     print(parameter, type(parameter))
+    wav_file = api_communicator.get_music_file(2)
+    print(type(wav_file))
 
 def test_music_loader():
     mu = MusicLoader()
     start_times = mu._create_start_times(30000,3000,10000)
     print(start_times)
+    HOST = 'http://localhost:5000/'
+    api_communicator = APICommunicator(HOST)
+    wav_file = api_communicator.get_music_file(2)
+    seg = mu.get_sound(wav_file)
+    print(seg)
 
 
 class APICommunicator(object):
@@ -142,9 +149,9 @@ class MusicLoader(object):
                 self._start_times = [0]
             self._start_time_index = 0
 
-        t1 = self.start_time[self._start_time_index]
+        t1 = self._start_times[self._start_time_index]
         if self._start_time_index < len(self._start_times)-1:
-            t2 = self.start_time[self._start_time_index + 1]
+            t2 = self._start_times[self._start_time_index + 1]
             self._start_time_index += 1
         else:
             t2 = None
