@@ -115,7 +115,7 @@ class MusicLoader(object):
         self.random_stop = None
         self.tmin_ms = None
         self.tmax_ms = None
-        self.song = None
+        self._song = None
         self._start_times = None
         self._start_time_index = None
 
@@ -123,13 +123,13 @@ class MusicLoader(object):
         if wav_file is not None:
             with open('temp.wav', 'wb') as myfile:
                 myfile.write(wav_file)
-            self.song = AudioSegment.from_wav('temp.wav')
+            self._song = AudioSegment.from_wav('temp.wav')
             self._start_times = None
 
         if self._start_times is None:
             if self.random_stop:
                 self._start_times = self._create_start_times(
-                        len(self.song),
+                        len(self._song),
                         self.tmin_ms,
                         self.tmax_ms,
                         )
@@ -145,7 +145,7 @@ class MusicLoader(object):
             t2 = None
             self._start_times = None
 
-        audio_segment = self.song[t1:t2]
+        audio_segment = self._song[t1:t2]
 
         return audio_segment
 
