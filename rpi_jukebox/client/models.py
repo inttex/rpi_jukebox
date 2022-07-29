@@ -11,28 +11,31 @@ with warnings.catch_warnings():
 def main():
     HOST = 'http://localhost:5000/'
     api_communicator = APICommunicator(HOST)
-    rfid = 2
-    wav_file = api_communicator.get_music_file(rfid)
-    print(type(wav_file))
+    parameter = api_communicator.get_parameter('tmin')
+    print(parameter, type(parameter))
+    parameter = api_communicator.get_parameter('tmax')
+    print(parameter, type(parameter))
+    parameter = api_communicator.get_parameter('random_stop')
+    print(parameter, type(parameter))
 
 
 class APICommunicator(object):
 
     """communicate by requests to the api restless server"""
-    entry_points = {'jukebox': 'jukebox'}
-    default_values = dict(
+    _entry_points = {'jukebox': 'jukebox'}
+    _default_values = dict(
             random_stop=False,
             tmin=5,
             tmax=20,
             )
-    for name in default_values:
-        entry_points[name] = f'parameters/{name}'
+    for name in _default_values:
+        _entry_points[name] = f'parameters/{name}'
 
     def __init__(self, host):
-        self.host = host
-        self.url = {
-                name: self.host + entry
-                for name, entry in self.entry_points.items()}
+        self._host = host
+        self._url = {
+                name: self._host + entry
+                for name, entry in self._entry_points.items()}
 
     def get_music_file(self, rfid):
         """obtain wav file from server
@@ -44,7 +47,7 @@ class APICommunicator(object):
 
         wav_file = None
 
-        url = self.url['jukebox'] + f'/{rfid}'
+        url = self._url['jukebox'] + f'/{rfid}'
         try:
             rsp = requests.get(url)
         except ConnectionError:
@@ -66,9 +69,9 @@ class APICommunicator(object):
         :returns: parameter value
 
         """
-        parameter_value = self.default_values[parameter_name]
+        parameter_value = self._default_values[parameter_name]
 
-        url = self.url[parameter_name]
+        url = self._url[parameter_name]
         try:
             rsp = requests.get(url)
         except ConnectionError:
@@ -82,7 +85,7 @@ class APICommunicator(object):
         return parameter_value
 
     def _create_new_resource(self, rfid):
-        url = self.url['jukebox']
+        url = self._url['jukebox']
         rsp = requests.post(url, data={'rfid': rfid})
         if rsp.ok:
             print(f'new resource created for rfid {rfid}')
