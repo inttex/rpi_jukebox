@@ -1,10 +1,10 @@
 [Unit]
 Description=rpi_jukebox server API
-After=multi-user.target
+After=default.target
 
 [Service]
 User=root
 Type=simple
 Restart=always
 ExecStart=/usr/local/bin/jukebox_server
-WantedBy=multi-user.target
+WantedBy=default.target
