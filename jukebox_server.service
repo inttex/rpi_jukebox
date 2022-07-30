@@ -7,4 +7,6 @@ User=root
 Type=simple
 Restart=always
 ExecStart=/usr/local/bin/jukebox_server
-WantedBy=default.target
+
+[Install]
+WantedBy=multi-user.target
