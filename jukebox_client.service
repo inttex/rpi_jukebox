@@ -1,6 +1,6 @@
 [Unit]
 Description=rpi_jukebox client to play music
-After=multi-user.target
+After=default.target
 
 [Service]
 User=root
