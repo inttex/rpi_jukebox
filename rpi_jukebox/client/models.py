@@ -145,6 +145,7 @@ class MusicLoader(object):
         self._song = None
         self._start_times = None
         self._start_time_index = None
+        self.volume_increase_dB = 0
 
     def get_sound(self, wav_file):
         if wav_file is not None:
@@ -176,7 +177,7 @@ class MusicLoader(object):
 
         audio_segment = self._song[t1:t2]
 
-        return audio_segment
+        return audio_segment + self.volume_increase_dB
 
     def _create_start_times(self, total_length: int, tmin: int, tmax: int):
         """create random start times of random length between tmin and tmax
