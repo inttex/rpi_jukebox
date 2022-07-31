@@ -11,6 +11,9 @@ with warnings.catch_warnings():
     from pydub import AudioSegment
 
 
+from rpi_jukebox.api.config import default_parameters
+
+
 def main():
     test_music_loader()
 
@@ -51,11 +54,7 @@ class APICommunicator(object):
 
     """communicate by requests to the api restless server"""
     _entry_points = {'jukebox': 'jukebox'}
-    _default_values = dict(
-            random_stop=False,
-            tmin=5,
-            tmax=20,
-            )
+    _default_values = default_parameters
     for name in _default_values:
         _entry_points[name] = f'parameters/{name}'
 
