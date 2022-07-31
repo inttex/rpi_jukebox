@@ -12,8 +12,9 @@ LAST_PARAMETERS_FILE = os.path.join(DATA_PATH, 'last_parameters.json')
 
 default_parameters = dict(
         random_stop=False,
-        tmin = 5,
-        tmax = 20,
+        tmin=5,
+        tmax=20,
+        volume_increase_dB=0,
         )
 
 PARAMETERS = tools.load_last_parameters(default_parameters, LAST_PARAMETERS_FILE)
