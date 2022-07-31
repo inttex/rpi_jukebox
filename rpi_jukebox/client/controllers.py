@@ -29,7 +29,7 @@ class JukeboxController():
             else:
                 wav_file = None
             if success:
-                self.musicloader.volume_increase_dB = self.apicommunicator.get_parameter['volume_increase_dB']
+                self.musicloader.volume_increase_dB = self.apicommunicator.get_parameter('volume_increase_dB')
                 if wav_file:
                     random_stop = self.apicommunicator.get_parameter('random_stop')
                     self.musicloader.random_stop = random_stop

@@ -15,7 +15,7 @@ from rpi_jukebox.api.config import default_parameters
 
 
 def main():
-    test_music_loader()
+    test_api_comm_param()
 
 
 def test_api_comm_param():
@@ -26,6 +26,8 @@ def test_api_comm_param():
     parameter = api_communicator.get_parameter('tmax')
     print(parameter, type(parameter))
     parameter = api_communicator.get_parameter('random_stop')
+    print(parameter, type(parameter))
+    parameter = api_communicator.get_parameter('volume_increase_dB')
     print(parameter, type(parameter))
     wav_file = api_communicator.get_music_file(2)
     print(type(wav_file))
