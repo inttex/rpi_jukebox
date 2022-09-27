@@ -1,8 +1,1 @@
-# rpi_jukebox
-a jukebox for rasperry pi with an rfid reader
-
-install instructions:
-git clone https://github.com/ImamAzim/rpi_jukebox
-cd rpi_jukebox
-./install.sh
-
+**Raspbery Jukebox** Is a software that allows to use a Rasberry as a Jukebox, by the use of an RFID reader and speakers. Documentation: https://imamazim.github.io/rpi_jukebox/ 
