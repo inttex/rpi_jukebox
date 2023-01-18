@@ -3,7 +3,7 @@
 from rpi_jukebox.client import app
 
 
-HOST = 'http://localhost:5000/'
+HOST = 'http://localhost:43210/'
 
 
 app.run_jukebox_client(HOST)

@@ -14,7 +14,11 @@ from rpi_jukebox.api.models import Musics
 from rpi_jukebox.utils import tools
 
 def main():
-    print(musics)
+    jukebox = Jukebox()
+    print(jukebox.get())
+
+    sp_jukebox = SpotifyJukebox()
+    sp_jukebox.post()
 
 def query_by_rfid(rfid):
     r = Musics.query.filter(Musics.rfid==rfid)

@@ -24,8 +24,10 @@ def shutdown_session(exception=None):
 api = Api(app)
 
 api.add_resource(resources.Jukebox, '/jukebox')
+api.add_resource(resources.Sp_Jukebox, '/jukebox')
 api.add_resource(resources.UnWrapper, '/unwrapper')
 api.add_resource(resources.Music, '/jukebox/<rfid>')
+api.add_resource(resources.Sp_Music, '/jukebox/<rfid>')
 api.add_resource(resources.Update, '/admin/update')
 api.add_resource(resources.Reboot, '/admin/reboot')
 api.add_resource(resources.PowerOff, '/admin/poweroff')

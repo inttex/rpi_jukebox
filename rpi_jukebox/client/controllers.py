@@ -2,7 +2,7 @@ import logging
 
 
 def main():
-    HOST = 'http://localhost:5000'
+    HOST = 'http://localhost:43210/'
     from rpi_jukebox.client.models import APICommunicator, MusicLoader
     from rpi_jukebox.client.views import JukeboxView
     apicommunicator = APICommunicator(HOST)

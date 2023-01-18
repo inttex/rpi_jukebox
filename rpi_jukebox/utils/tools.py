@@ -1,4 +1,6 @@
 import json
+import traceback
+
 
 def load_last_parameters(default_parameters: dict, path: str):
     """TODO: Docstring for load_last_parameters.
@@ -17,7 +19,7 @@ def load_last_parameters(default_parameters: dict, path: str):
     except EOFError:
         print('last parameter file is probably empty..')
     except IOError:
-        print('could not access or find last parameter file')
+        print('could not access or find last parameter file', traceback.print_exc())
 
     return parameters
 
@@ -33,4 +35,4 @@ def save_current_parameters(parameters: dict, path: str):
         with open(path, 'w') as myfile:
             json.dump(parameters, myfile)
     except IOError:
-        print('could not access or find last parameter file')
+        print('could not access or find last parameter file', traceback.print_exc())

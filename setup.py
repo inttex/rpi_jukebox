@@ -21,6 +21,7 @@ install_requires=[
     'simpleaudio',
     'pydub',
     'flake8',
+    'spotipy',
     ]
 
 setup(name='rpi_jukebox',

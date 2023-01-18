@@ -1,19 +1,16 @@
 import datetime
 import warnings
-import sys
 import os
 import threading
 import random
 import logging
-import time
 
 import requests
-import keyboard
 import simpleaudio
 
 from rpi_jukebox.api.config import CLIENT_LOG_FILE
 
-HOST = 'http://localhost:5000'
+HOST = 'http://localhost:43210'
 TMIN = 5
 TMAX = 20
 

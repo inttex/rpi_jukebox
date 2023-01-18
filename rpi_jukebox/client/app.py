@@ -11,7 +11,7 @@ logging.basicConfig(filename=CLIENT_LOG_FILE, level=logging.INFO, format='%(asct
 
 
 def main():
-    HOST = 'http://localhost:5000/'
+    HOST = 'http://localhost:43210/'
     run_jukebox_client(HOST)
 
 
@@ -23,10 +23,12 @@ def run_jukebox_client(host):
 class JukeboxApp():
 
     def __init__(self, host):
-        music_loader = MusicLoader()
-        api_communicator = APICommunicator(host)
-        self._view = JukeboxView()
-        controller = JukeboxController(api_communicator, music_loader, self._view)
+        music_loader = MusicLoader() # gets wav and prepares start times
+        api_communicator = APICommunicator(host) #communicates by requests to the api restless server
+        self._view = JukeboxView() # get input from RFID, play and stop play_buffer
+        controller = JukeboxController(api_communicator, music_loader, self._view) # gets RFID, requests song via
+        # APICommunicator and pays sond in _view
+
         self._view.set_controller(controller)
 
     def run(self):

@@ -19,7 +19,7 @@ def main():
 
 
 def test_api_comm_param():
-    HOST = 'http://localhost:5000/'
+    HOST = 'http://localhost:43210/'
     api_communicator = APICommunicator(HOST)
     parameter = api_communicator.get_parameter('tmin')
     print(parameter, type(parameter))
@@ -37,7 +37,7 @@ def test_music_loader():
     mu = MusicLoader()
     start_times = mu._create_start_times(30000, 3000, 10000)
     print(start_times)
-    HOST = 'http://localhost:5000/'
+    HOST = 'http://localhost:43210/'
     api_communicator = APICommunicator(HOST)
     wav_file = api_communicator.get_music_file(2)
     mu.random_stop = True
@@ -152,7 +152,7 @@ class MusicLoader(object):
         if wav_file is not None:
             with open('temp.wav', 'wb') as myfile:
                 myfile.write(wav_file)
-            self._song = AudioSegment.from_wav('temp.wav')
+            self._song = AudioSegment.from_file('temp.wav')
             os.remove('temp.wav')
             self._start_times = None
 
