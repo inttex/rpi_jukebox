@@ -22,6 +22,7 @@ install_requires=[
     'pydub',
     'flake8',
     'spotipy',
+    'mfrc522',
     ]
 
 setup(name='rpi_jukebox',
