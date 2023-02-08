@@ -14,6 +14,7 @@ def main():
     app.run()
 
 
+
 class RaspyBoxApp():
 
     def __init__(self):
@@ -21,6 +22,7 @@ class RaspyBoxApp():
         self._model = Model()
         # music_loader = MusicLoader() # gets wav and prepares start times
         # api_communicator = APICommunicator(host) #communicates by requests to the api restless server
+
 
         # view and controller
         self._view = View()  # get input from RFID, play and stop play_buffer

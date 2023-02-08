@@ -5,9 +5,10 @@ from queue import Queue
 from threading import Thread
 from time import sleep
 
+from RPi import GPIO
 from spotipy import Spotify, SpotifyOAuth
 
-from rpi_jukebox.rfid_tools.rfid_thread import rfid_loop, reader_loop
+from rpi_jukebox.rfid_tools.rfid_thread import rfid_loop, reader_loop, switch_reader_loop
 from rpi_jukebox.spotybox.interfaces import ViewInterface, ControllerInterface
 
 
@@ -19,8 +20,13 @@ class View(ViewInterface):
         self.rfid_thread = Thread(target=rfid_loop, args=(q, lambda: self._do_terminate_threads))
         self.reader_thread = Thread(target=reader_loop,
                                     args=(q, lambda: self._do_terminate_threads, self.rfid_callback))
+        self.switch_reader_thread = Thread(target=switch_reader_loop,
+                                           args=(lambda: self._do_terminate_threads, self.switch_callback))
 
         self._sp = self.start_spotify_connection()
+        self._led_pin = 5
+
+        self.init_LED()
 
     def set_controller(self, controller: ControllerInterface):
         self._controller = controller
@@ -28,22 +34,29 @@ class View(ViewInterface):
     def rfid_callback(self, rfid_value: int):
         self._controller.evaluate_rfid(rfid_value)
 
+    def switch_callback(self, new_switch_state):
+        self._controller.evaluate_new_switch_state(new_switch_state)
+
     def run(self):
+        GPIO.output(self._led_pin, GPIO.HIGH)
         self.rfid_thread.start()
         self.reader_thread.start()
+        self.switch_reader_thread.start()
         try:
             while not self._do_terminate_threads:
                 sleep(0.1)
 
         finally:
-            logging.info('terminating rfid and reader threads')
             self.rfid_thread.join()
             self.reader_thread.join()
-            logging.info('terminating rfid and reader threads --> done')
+            self.switch_reader_thread.join()
+            logging.info('rfid and reader threads are successfully joined')
 
     def stop_view(self):
         logging.info('view: set terminate flag to True')
-        self._do_terminate_threads=True
+        self._do_terminate_threads = True
+        GPIO.output(self._led_pin, GPIO.LOW)
+        # GPIO.cleanup() # cleanup is done by rfid_thread
 
     def play_song(self, uri):
         logging.info('view: playing song %s' % uri)
@@ -65,3 +78,7 @@ class View(ViewInterface):
                                                redirect_uri=redirect_uri,
                                                scope="user-read-playback-state,user-modify-playback-state"))
         return sp
+
+    def init_LED(self):
+        GPIO.setmode(GPIO.BOARD)
+        GPIO.setup(self._led_pin, GPIO.OUT)

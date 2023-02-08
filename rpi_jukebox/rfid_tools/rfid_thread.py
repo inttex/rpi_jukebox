@@ -20,7 +20,6 @@ def send_rfid_to_q(rfid_result, q: Queue):
 
 def rfid_loop(q: Queue, is_do_terminate_threads):
     logging.info('starting rfid_loop')
-    GPIO.cleanup()
     try:
         reader = SimpleMFRC522()
         last_valid_id = None
@@ -45,7 +44,8 @@ def rfid_loop(q: Queue, is_do_terminate_threads):
     except:
         logging.info(('terminating rfid_loop by exception', traceback.print_exc()))
     finally:
-        GPIO.cleanup()
+        # GPIO.cleanup()
+        GPIO.setwarnings(False)
         logging.info('cleanup GPIOs')
 
 
@@ -57,10 +57,30 @@ def reader_loop(q: Queue, is_do_terminate_threads: Callable, rfid_callback: Call
                 key, text = q.get()
                 logging.debug('received rfid %s' % key)
                 rfid_callback(key)
+
             sleep(0.1)
         logging.info('terminating reader_loop by flag')
     except:
         logging.info(('terminating reader_loop by exception', traceback.print_exc()))
+
+
+def switch_reader_loop(is_do_terminate_threads: Callable, switch_callback: Callable):
+    logging.info('starting switch reader_loop')
+    try:
+        GPIO.setmode(GPIO.BOARD)
+        GPIO.setup(10, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+        last_switch_state = False
+        while not is_do_terminate_threads():
+            sleep(0.1)
+            current_switch_state = GPIO.input(10)
+            if current_switch_state != last_switch_state:
+                switch_callback(current_switch_state)
+                logging.info('new switch state %s' % current_switch_state)
+                last_switch_state = current_switch_state
+
+        logging.info('terminating switch reader_loop by flag')
+    except:
+        logging.info(('terminating switch reader_loop by exception', traceback.print_exc()))
 
 
 def main():
