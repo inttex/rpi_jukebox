@@ -1,5 +1,7 @@
 from abc import ABC, abstractmethod
 
+from rpi_jukebox.spotify_client.data_structs import Sp_Music
+
 
 class ControllerInterface(ABC):
 
@@ -54,7 +56,7 @@ class ViewInterface(ABC):
         pass
 
     @abstractmethod
-    def play_song(self, uri):
+    def play_song(self, music: Sp_Music):
         pass
 
     @abstractmethod

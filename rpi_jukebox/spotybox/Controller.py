@@ -1,5 +1,7 @@
 import logging
 
+from rpi_jukebox.spotify_client.data_structs import Sp_Music
+
 from rpi_jukebox.spotybox.interfaces import ControllerInterface, ViewInterface
 from rpi_jukebox.spotybox.model import Model
 
@@ -11,8 +13,8 @@ class Controller(ControllerInterface):
         self._model = model
 
     def evaluate_rfid(self, rfid_value: int):
-        def rfid_callback(uri):
-            self._view.play_song(uri)
+        def rfid_callback(music: Sp_Music):
+            self._view.play_song(music)
 
         self._model.evaluate_rfid(rfid_value, callback=rfid_callback, controller=self)
 
@@ -37,7 +39,7 @@ class Controller(ControllerInterface):
 
     def stop_device(self):
         logging.info('controller, stop_device')
-        pass
+        self._view.stop_view()
 
     def stop_device_in_20min(self):
         logging.info('controller, stop_device_in_20min')

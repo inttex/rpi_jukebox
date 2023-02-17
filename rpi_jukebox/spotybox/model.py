@@ -2,6 +2,8 @@ import enum
 import logging
 from typing import Callable, NamedTuple
 
+from rpi_jukebox.spotify_client.data_structs import Sp_Music, SpType, ReplayType
+
 from rpi_jukebox.spotybox.interfaces import ControllerInterface
 
 
@@ -36,7 +38,7 @@ class Model:
             937348065986: COMMAND.STOP_DEVICE_20_MIN,
             730221144919: COMMAND.NEXT,
             456312580711: COMMAND.PREV,
-            700105795467: COMMAND.STOP_VIEW,  # elsa karte
+            181471177607: COMMAND.STOP_VIEW,
         }
 
     def rfid_from_command(self, command_to_check: COMMAND):
@@ -71,5 +73,11 @@ class Model:
 
         if rfid_value in self._available_commands.keys():
             self.run_command(rfid_value, controller)
+        elif rfid_value == 700105795467:  # elsa karte
+            music = Sp_Music(id=0, rfid=700105795467,
+                             title='testPL', sp_uuid='3UqcGrPY6Jb7sloww3sH0X',
+                             sp_type=SpType.PLAYLIST, replay_type=ReplayType.FROM_START,
+                             last_played_song=0)
+            callback(music)  # testPL
         else:
-            callback(uri=111)
+            callback(uri='3UqcGrPY6Jb7sloww3sH0X')  # testPL

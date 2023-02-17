@@ -6,6 +6,7 @@ from threading import Thread
 from time import sleep
 
 from RPi import GPIO
+from rpi_jukebox.spotify_client.data_structs import Sp_Music
 from spotipy import Spotify, SpotifyOAuth
 
 from rpi_jukebox.rfid_tools.rfid_thread import rfid_loop, reader_loop, switch_reader_loop
@@ -13,6 +14,9 @@ from rpi_jukebox.spotybox.interfaces import ViewInterface, ControllerInterface
 
 
 class View(ViewInterface):
+
+    # alle 10 sec abfragen, welches der aktuelle Track ist
+
 
     def __init__(self):
         self._do_terminate_threads = False
@@ -58,9 +62,9 @@ class View(ViewInterface):
         GPIO.output(self._led_pin, GPIO.LOW)
         # GPIO.cleanup() # cleanup is done by rfid_thread
 
-    def play_song(self, uri):
-        logging.info('view: playing song %s' % uri)
-        self._sp.start_playback(uri)
+    def play_song(self, music: Sp_Music):
+        logging.info('view: playing song %s' % str(music))
+        self._sp.start_playback(uris=[music.sp_uuid, ])
 
     def start_spotify_connection(self):
         config = configparser.ConfigParser()

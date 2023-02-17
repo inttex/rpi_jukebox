@@ -15,6 +15,7 @@
 # pylabels.  If not, see <http://www.gnu.org/licenses/>.
 import glob
 import os
+import struct
 from pathlib import Path
 from typing import NamedTuple
 
@@ -23,7 +24,6 @@ from reportlab.graphics.shapes import Drawing, Image, Group
 
 from reportlab.graphics import shapes
 from reportlab.lib import colors
-
 
 # Create an A4 portrait (210mm x 297mm) sheet with 2 columns and 8 rows of
 # labels. Each label is 90mm x 25mm with a 2mm rounded corner. The margins are
@@ -46,6 +46,21 @@ class LabelConfig(NamedTuple):
 draw_solid_fill = False
 
 
+def get_image_info(data):
+    if is_png(data):
+        w, h = struct.unpack('>LL', data[16:24])
+        width = int(w)
+        height = int(h)
+    else:
+        raise Exception('not a png image')
+    return width, height
+
+
+def is_png(data):
+    return True
+    # return (data[:8] == '\211PNG\r\n\032\n' and (data[12:16] == 'IHDR'))
+
+
 # Create a function to draw each label. This will be given the ReportLab drawing
 # object to draw on, the dimensions (NB. these will be in points, the unit
 # ReportLab uses) of the label, and the object to render.
@@ -60,13 +75,19 @@ def draw_label(label, width, height, config: LabelConfig):
     dr = Drawing()
     dirname = os.path.dirname(__file__)
     file2 = os.path.join(dirname, config.img_path)
-    img_size = 125
-    dr.add(Image(0, 0, img_size, img_size, file2))
+
+    with open(file2, 'rb') as f:
+        data = f.read()
+    width, height = get_image_info(data)
+
+    img_height = 75
+    img_width = img_height * width / height
+    dr.add(Image(0, 0, img_width, img_height, file2))
     string = shapes.String(0, -20, config.title, fontName="Helvetica", fontSize=20)
 
     group = Group(dr, string)
-    img_border = 10
-    group.translate(img_size + img_border, img_border)
+    img_border = 35
+    group.translate(img_height + img_border, +72.5 - img_width / 2)
     group.rotate(90)
 
     label.add(group)
@@ -92,11 +113,12 @@ def create_sheet_1_page(my_labels, pdf_filename, draw_border=False):
 
 def main():
     # https: // fontawesome.com / icons / play - pause?s = solid & f = classic
-    files = glob.glob('imgs/*.jpg')
+    files = glob.glob('symbols/*.png')
 
-    my_labels = [('',Path(file)) for file in files]
+    my_labels = [('', Path(file)) for file in files]
+    print(my_labels)
 
-    create_sheet_1_page(my_labels, "my_filename.pdf", draw_border=False)
+    create_sheet_1_page(my_labels, "control_symbols_labels.pdf", draw_border=False)
 
 
 if __name__ == '__main__':

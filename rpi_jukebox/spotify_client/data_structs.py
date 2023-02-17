@@ -44,7 +44,13 @@ class Sp_Music(NamedTuple):
     sp_uuid: str = 'asdf'
     sp_type: SpType = SpType.ALBUM
     replay_type: ReplayType = ReplayType.FROM_START
-    last_played_song: str = 0
+    last_played_song: int = 0
+
+    def __repr__(self):
+        return self.sp_uuid
+
+    def __str__(self):
+        return self.__repr__()
 
 
 class Sp_Card(NamedTuple):
