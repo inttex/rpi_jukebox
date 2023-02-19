@@ -13,7 +13,7 @@ from rpi_jukebox.rfid_tools.rfid_thread import rfid_loop, reader_loop, switch_re
 from rpi_jukebox.spotybox.interfaces import ViewInterface, ControllerInterface
 
 
-class View(ViewInterface):
+class RaspiView(ViewInterface):
 
     # alle 10 sec abfragen, welches der aktuelle Track ist
 
