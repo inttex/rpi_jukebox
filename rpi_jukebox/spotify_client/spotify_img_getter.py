@@ -44,7 +44,7 @@ def main():
                                            redirect_uri=redirect_uri,
                                            scope="user-read-playback-state,user-modify-playback-state"))
 
-    with open('albums_to_get.csv', newline='') as csvfile:
+    with open('albums_imgs_to_get.csv', newline='') as csvfile:
         spamreader = csv.reader(csvfile, delimiter=',', quotechar='|')
         albums = [row for row in spamreader]
 

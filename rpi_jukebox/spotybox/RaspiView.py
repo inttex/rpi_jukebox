@@ -17,7 +17,6 @@ class RaspiView(ViewInterface):
 
     # alle 10 sec abfragen, welches der aktuelle Track ist
 
-
     def __init__(self):
         self._do_terminate_threads = False
         q = Queue()
@@ -64,7 +63,7 @@ class RaspiView(ViewInterface):
 
     def play_song(self, music: Sp_Music):
         logging.info('view: playing song %s' % str(music))
-        self._sp.start_playback(uris=[music.sp_uuid, ])
+        self._sp.start_playback(uris=[music.sp_link, ])
 
     def start_spotify_connection(self):
         config = configparser.ConfigParser()

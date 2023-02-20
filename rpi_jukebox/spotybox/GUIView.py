@@ -1,19 +1,53 @@
+import configparser
+import enum
 import logging
-from rpi_jukebox.spotify_client.data_structs import Sp_Music
-from rpi_jukebox.spotybox.csv_helper import get_commands
+from enum import Enum
+from pathlib import Path
+
+from spotipy import Spotify, SpotifyOAuth
+
+from rpi_jukebox.spotify_client.data_structs import Sp_Music, SpType
+from rpi_jukebox.spotybox.csv_helper import get_commands, get_collection
 from rpi_jukebox.spotybox.dataclasses import COMMAND
 
 from rpi_jukebox.spotybox.interfaces import ViewInterface, ControllerInterface
 import dearpygui.dearpygui as dpg
 
 
+class PLAY_STATUS(Enum):
+    PLAYING = enum.auto()
+    PAUSING = enum.auto()
+
+
 class GUIView(ViewInterface):
 
     def __init__(self):
-        pass
+        self._volume = 80
+        self._sp = self.start_spotify_connection()
+
 
     def set_controller(self, controller: ControllerInterface):
         self._controller = controller
+
+    def start_spotify_connection(self):
+        config = configparser.ConfigParser()
+        configfile = Path(r'../../res/config.cfg')
+        config.read(configfile)
+        username = config['SPOTIFY']['username']
+        clientID = config['SPOTIFY']['clientID']
+        clientSecret = config['SPOTIFY']['clientSecret']
+        redirect_uri = config['SPOTIFY']['redirect_uri']
+        self._DEVICE_ID = config['SPOTIFY']['DEVICE_ID_LINUX']
+
+        sp = Spotify(auth_manager=SpotifyOAuth(username=username,
+                                               client_id=clientID,
+                                               client_secret=clientSecret,
+                                               redirect_uri=redirect_uri,
+                                               scope="user-read-playback-state,user-modify-playback-state",
+                                               open_browser=False))
+
+        sp.volume(self._volume)
+        return sp
 
     def rfid_callback(self, _, __, rfid_value: tuple):
         self._controller.evaluate_rfid(rfid_value[0])
@@ -36,6 +70,13 @@ class GUIView(ViewInterface):
                     comm: COMMAND
                     dpg.add_button(label=comm.name, user_data=(rfid,),
                                    callback=self.rfid_callback)
+
+                with dpg.group():
+                    for rfid, entry in get_collection().items():
+                        print(entry)
+                        entry: Sp_Music
+                        dpg.add_button(label=rfid, user_data=(rfid,),
+                                       callback=self.rfid_callback)
                 # select RFID
                 # toggle switcher
                 # on off LED
@@ -52,6 +93,47 @@ class GUIView(ViewInterface):
     def stop_view(self):
         dpg.destroy_context()
 
+    def _clear_queue(self):
+        q = self._sp.queue()
+        q_length = len(q['queue'])
+        for i in range(q_length):
+            self._sp.next_track()
+
     def play_song(self, music: Sp_Music):
         logging.info('view: playing song %s' % str(music))
-        self._sp.start_playback(uris=[music.sp_uuid, ])
+        # self._clear_queue()
+        if music.sp_type == SpType.ALBUM:
+            self._sp.start_playback(context_uri=music.sp_link)
+        if music.sp_type == SpType.PLAYLIST:
+            self._sp.start_playback(context_uri=music.sp_link, offset={'position': music.last_played_song})
+
+    def pause_play(self):
+        if self._sp.current_user_playing_track()['is_playing']:
+            logging.info('GUI_View: toggling to PAUSING')
+            self._sp.pause_playback()
+        else:
+            logging.info('GUI_View: toggling to PLAYING')
+            self._sp.start_playback()
+
+    def prev_track(self):
+        logging.info('GUI_View: prev track')
+        self._sp.previous_track()
+
+    def next_track(self):
+        logging.info('GUI_View: next track')
+        self._sp.next_track()
+
+    def vol_dec(self):
+        self._volume -= 10
+        self._volume = max([0, min([self._volume, 100])])
+        logging.info('GUI_View: decrease volume to %s'%self._volume)
+        self._sp.volume(self._volume)
+
+    def vol_inc(self):
+        self._volume += 10
+        self._volume = max([0, min([self._volume, 100])])
+        logging.info('GUI_View: increase volume to %s' % self._volume)
+        self._sp.volume(self._volume)
+
+    def stop_view_in20min(self):
+        logging.info('GUI_View: stop in 20min. NOT IMPLEMENTED, YET')

@@ -12,45 +12,58 @@ class ReplayType(enum.Enum):
     FROM_LAST_TRACK = 2
 
 
+def get_uri_from_url(url):
+    uri = url.replace('https://open.spotify.com/', 'spotify:')
+    if 'album' in uri:
+        uri = uri.replace('album/', 'album:')
+    elif 'playlist' in uri:
+        uri = uri.replace('playlist/', 'playlist:')
+    elif 'artist' in uri:
+        uri = uri.replace('artist/', 'artist:')
+    elif 'track' in uri:
+        uri = uri.replace('track/', 'track:')
+    uri = uri.split('?si')[0]
+    return uri
+
+
+def get_uuid_from_url(url):
+    uri = get_uri_from_url(url)
+    uuid = uri.split(':')[2]
+    return uuid
+
+
 class CardLabel(NamedTuple):
     name: str
     url: str
     label_for_print: str = ''
     img = None
 
-    def get_uri(self):
-        uri = self.url.replace('https://open.spotify.com/', 'spotify:')
-        if 'album' in uri:
-            uri = uri.replace('album/', 'album:')
-        elif 'playlist' in uri:
-            uri = uri.replace('playlist/', 'playlist:')
-        elif 'artist' in uri:
-            uri = uri.replace('artist/', 'artist:')
-        elif 'track' in uri:
-            uri = uri.replace('track/', 'track:')
-        uri = uri.split('?si')[0]
-        return uri
-
     def get_uuid(self):
-        uri = self.get_uri()
-        uuid = uri.split(':')[2]
-        return uuid
+        return get_uuid_from_url(self.url)
+
+    def get_uri(self):
+        return get_uri_from_url(self.url)
 
 
 class Sp_Music(NamedTuple):
-    id: int = 0
     rfid: int = 0
     title: str = 'new title'
-    sp_uuid: str = 'asdf'
+    sp_link: str = 'asdf'
     sp_type: SpType = SpType.ALBUM
     replay_type: ReplayType = ReplayType.FROM_START
     last_played_song: int = 0
 
     def __repr__(self):
-        return self.sp_uuid
+        return self.get_sp_uuid()
 
     def __str__(self):
         return self.__repr__()
+
+    def get_sp_uri(self):
+        return get_uri_from_url(self.sp_link)
+
+    def get_sp_uuid(self):
+        return get_uuid_from_url(self.sp_link)
 
 
 class Sp_Card(NamedTuple):

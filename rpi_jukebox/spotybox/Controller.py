@@ -13,10 +13,10 @@ class Controller(ControllerInterface):
         self._model = model
 
     def evaluate_rfid(self, rfid_value: int):
-        def rfid_callback(music: Sp_Music):
-            self._view.play_song(music)
+        self._model.evaluate_rfid(rfid_value, controller=self)
 
-        self._model.evaluate_rfid(rfid_value, callback=rfid_callback, controller=self)
+    def play_entry(self, music: Sp_Music):
+        self._view.play_song(music)
 
     def evaluate_new_switch_state(self, new_switch_state):
         logging.info('controller, evaluating new switch state %s' % new_switch_state)
@@ -27,15 +27,15 @@ class Controller(ControllerInterface):
 
     def pause_play(self):
         logging.info('controller, pause_play')
-        pass
+        self._view.pause_play()
 
     def vol_inc(self):
         logging.info('controller, vol_inc')
-        pass
+        self._view.vol_inc()
 
     def vol_dec(self):
         logging.info('controller, vol_dec')
-        pass
+        self._view.vol_dec()
 
     def stop_device(self):
         logging.info('controller, stop_device')
@@ -43,13 +43,12 @@ class Controller(ControllerInterface):
 
     def stop_device_in_20min(self):
         logging.info('controller, stop_device_in_20min')
-        pass
+        self._view.stop_view_in20min()
 
     def next_track(self):
         logging.info('controller, next_track')
-        # check in model, which track to play, first
-        pass
+        self._view.next_track()
 
     def prev_track(self):
         logging.info('controller, prev_track')
-        pass
+        self._view.prev_track()
