@@ -57,26 +57,35 @@ class GUIView(ViewInterface):
 
     def run(self):
         dpg.create_context()
-        dpg.create_viewport(title='Custom Title', width=600, height=500)
+        dpg.create_viewport(title='Custom Title', width=900, height=500)
 
         try:
             with dpg.window(label="Example Window"):
-                dpg.add_text("Hello, world")
-                dpg.add_button(label="Save")
-                dpg.add_input_text(label="string", default_value="Quick brown fox")
-                dpg.add_slider_float(label="float", default_value=0.273, max_value=1)
-                available_commands = get_commands()
-                for rfid, comm in available_commands.items():
-                    comm: COMMAND
-                    dpg.add_button(label=comm.name, user_data=(rfid,),
-                                   callback=self.rfid_callback)
-
-                with dpg.group():
-                    for rfid, entry in get_collection().items():
-                        print(entry)
-                        entry: Sp_Music
-                        dpg.add_button(label=rfid, user_data=(rfid,),
+                with dpg.group(horizontal=True):
+                    with dpg.child_window(width = 250, height = 450):
+                        dpg.add_text("Physical I/O")
+                        dpg.add_separator()
+                        dpg.add_text("Renderer:")
+                        dpg.add_radio_button(label = 'Renderer', items=('local','external'))
+                        dpg.add_text("LED:")
+                        dpg.add_color_button(label = 'LED',default_value=(0,255,0))
+                    with dpg.child_window(label = 'Commands',width = 250):
+                        dpg.add_text("RFID Commands")
+                        dpg.add_separator()
+                        available_commands = get_commands()
+                        for rfid, comm in available_commands.items():
+                            comm: COMMAND
+                            dpg.add_button(label=comm.name, user_data=(rfid,),
                                        callback=self.rfid_callback)
+
+                    with dpg.child_window(label = 'My Collection',width = 250):
+                        dpg.add_text("RFID Collection Cards")
+                        dpg.add_separator()
+                        for rfid, entry in get_collection().items():
+                            print(entry)
+                            entry: Sp_Music
+                            dpg.add_button(label=entry.title, user_data=(rfid,),
+                                           callback=self.rfid_callback)
                 # select RFID
                 # toggle switcher
                 # on off LED
