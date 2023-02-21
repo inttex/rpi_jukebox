@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 
-from rpi_jukebox.spotify_client.data_structs import Sp_Music
+from rpi_jukebox.spotify_client.data_structs import Sp_Music, SwitchState
 
 
 class ControllerInterface(ABC):
@@ -10,43 +10,17 @@ class ControllerInterface(ABC):
         pass
 
     @abstractmethod
-    def play_entry(self, music: Sp_Music):
-        pass
-
-    @abstractmethod
     def stop_view(self):
         pass
 
     @abstractmethod
-    def pause_play(self):
+    def evaluate_new_switch_state(self, new_switch_state:SwitchState):
         pass
 
-    @abstractmethod
-    def vol_inc(self):
-        pass
-
-    @abstractmethod
-    def vol_dec(self):
-        pass
-
-    @abstractmethod
     def stop_device(self):
         pass
 
-    @abstractmethod
     def stop_device_in_20min(self):
-        pass
-
-    @abstractmethod
-    def next_track(self):
-        pass
-
-    @abstractmethod
-    def prev_track(self):
-        pass
-
-    @abstractmethod
-    def evaluate_new_switch_state(self, new_switch_state):
         pass
 
 
@@ -60,33 +34,5 @@ class ViewInterface(ABC):
         pass
 
     @abstractmethod
-    def play_song(self, music: Sp_Music):
-        pass
-
-    @abstractmethod
     def stop_view(self):
-        pass
-
-    @abstractmethod
-    def pause_play(self):
-        pass
-
-    @abstractmethod
-    def prev_track(self):
-        pass
-
-    @abstractmethod
-    def next_track(self):
-        pass
-
-    @abstractmethod
-    def vol_dec(self):
-        pass
-
-    @abstractmethod
-    def vol_inc(self):
-        pass
-
-    @abstractmethod
-    def stop_view_in20min(self):
         pass

@@ -9,6 +9,8 @@ from typing import Callable
 from mfrc522 import SimpleMFRC522
 import RPi.GPIO as GPIO
 
+from rpi_jukebox.spotify_client.data_structs import SwitchState
+
 MIN_DELAY_RFID_SEC = 2
 
 
@@ -72,7 +74,10 @@ def switch_reader_loop(is_do_terminate_threads: Callable, switch_callback: Calla
         last_switch_state = False
         while not is_do_terminate_threads():
             sleep(0.1)
-            current_switch_state = GPIO.input(10)
+            if GPIO.input(10):
+                current_switch_state = SwitchState.INTERNAL
+            else:
+                current_switch_state = SwitchState.EXTERNAL
             if current_switch_state != last_switch_state:
                 switch_callback(current_switch_state)
                 logging.info('new switch state %s' % current_switch_state)

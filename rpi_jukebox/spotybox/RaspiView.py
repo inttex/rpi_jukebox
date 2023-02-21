@@ -6,7 +6,7 @@ from threading import Thread
 from time import sleep
 
 from RPi import GPIO
-from rpi_jukebox.spotify_client.data_structs import Sp_Music
+from rpi_jukebox.spotify_client.data_structs import Sp_Music, SwitchState
 from spotipy import Spotify, SpotifyOAuth
 
 from rpi_jukebox.rfid_tools.rfid_thread import rfid_loop, reader_loop, switch_reader_loop
@@ -37,7 +37,7 @@ class RaspiView(ViewInterface):
     def rfid_callback(self, rfid_value: int):
         self._controller.evaluate_rfid(rfid_value)
 
-    def switch_callback(self, new_switch_state):
+    def switch_callback(self, new_switch_state:SwitchState):
         self._controller.evaluate_new_switch_state(new_switch_state)
 
     def run(self):

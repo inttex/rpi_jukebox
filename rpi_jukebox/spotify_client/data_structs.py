@@ -12,6 +12,11 @@ class ReplayType(enum.Enum):
     FROM_LAST_TRACK = 2
 
 
+class SwitchState(enum.Enum):
+    INTERNAL = 1
+    EXTERNAL = 2
+
+
 def get_uri_from_url(url):
     uri = url.replace('https://open.spotify.com/', 'spotify:')
     if 'album' in uri:

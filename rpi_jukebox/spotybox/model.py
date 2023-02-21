@@ -1,7 +1,11 @@
+import configparser
 import logging
-from typing import Callable, NamedTuple
+from pathlib import Path
+from typing import NamedTuple
 
-from rpi_jukebox.spotify_client.data_structs import Sp_Music, SpType, ReplayType
+from spotipy import SpotifyOAuth, Spotify
+
+from rpi_jukebox.spotify_client.data_structs import Sp_Music, SpType
 from rpi_jukebox.spotybox.csv_helper import get_commands, get_collection
 from rpi_jukebox.spotybox.dataclasses import COMMAND
 
@@ -23,11 +27,76 @@ class Collection:
         pass
 
 
+class SpPlayer:
+    def __init__(self):
+        self._volume = 80
+        self._sp = self.start_spotify_connection()
+
+    def start_spotify_connection(self):
+        config = configparser.ConfigParser()
+        configfile = Path(r'../../res/config.cfg')
+        config.read(configfile)
+        username = config['SPOTIFY']['username']
+        clientID = config['SPOTIFY']['clientID']
+        clientSecret = config['SPOTIFY']['clientSecret']
+        redirect_uri = config['SPOTIFY']['redirect_uri']
+        self._DEVICE_ID = config['SPOTIFY']['DEVICE_ID_LINUX']
+
+        sp = Spotify(auth_manager=SpotifyOAuth(username=username,
+                                               client_id=clientID,
+                                               client_secret=clientSecret,
+                                               redirect_uri=redirect_uri,
+                                               scope="user-read-playback-state,user-modify-playback-state",
+                                               open_browser=False))
+
+        sp.volume(self._volume)
+        return sp
+
+    def play_entry(self, music: Sp_Music):
+        logging.info('Sp_Player: playing song %s' % str(music))
+        if music.sp_type == SpType.ALBUM:
+            self._sp.start_playback(context_uri=music.sp_link)
+        if music.sp_type == SpType.PLAYLIST:
+            self._sp.start_playback(context_uri=music.sp_link, offset={'position': music.last_played_song})
+
+    def pause_play(self):
+        if self._sp.current_user_playing_track()['is_playing']:
+            logging.info('Sp_Player: toggling to PAUSING')
+            self._sp.pause_playback()
+        else:
+            logging.info('Sp_Player: toggling to PLAYING')
+            self._sp.start_playback()
+
+    def prev_track(self):
+        logging.info('Sp_Player: prev track')
+        self._sp.previous_track()
+
+    def next_track(self):
+        logging.info('Sp_Player: next track')
+        self._sp.next_track()
+
+    def vol_dec(self):
+        self._volume -= 10
+        self._volume = max([0, min([self._volume, 100])])
+        logging.info('Sp_Player: decrease volume to %s' % self._volume)
+        self._sp.volume(self._volume)
+
+    def vol_inc(self):
+        self._volume += 10
+        self._volume = max([0, min([self._volume, 100])])
+        logging.info('Sp_Player: increase volume to %s' % self._volume)
+        self._sp.volume(self._volume)
+
+    def stop_view_in20min(self):
+        logging.info('Sp_Player: stop in 20min. NOT IMPLEMENTED, YET')
+
+
 class Model:
     def __init__(self, ):
         self._available_commands = get_commands()
         self._my_collection = get_collection()
         self._collection = Collection()
+        self._sp_player = SpPlayer()
 
     def rfid_from_command(self, command_to_check: COMMAND):
         for key, command in self._available_commands.items():
@@ -39,19 +108,19 @@ class Model:
         if rfid_value == self.rfid_from_command(COMMAND.STOP_VIEW):
             controller.stop_view()
         elif rfid_value == self.rfid_from_command(COMMAND.PAUSE_PLAY):
-            controller.pause_play()
+            self._sp_player.pause_play()
         elif rfid_value == self.rfid_from_command(COMMAND.VOL_INC):
-            controller.vol_inc()
+            self._sp_player.vol_inc()
         elif rfid_value == self.rfid_from_command(COMMAND.VOL_DEC):
-            controller.vol_dec()
+            self._sp_player.vol_dec()
         elif rfid_value == self.rfid_from_command(COMMAND.STOP_DEVICE):
             controller.stop_device()
         elif rfid_value == self.rfid_from_command(COMMAND.STOP_DEVICE_20_MIN):
             controller.stop_device_in_20min()
         elif rfid_value == self.rfid_from_command(COMMAND.NEXT):
-            controller.next_track()
+            self._sp_player.next_track()
         elif rfid_value == self.rfid_from_command(COMMAND.PREV):
-            controller.prev_track()
+            self._sp_player.prev_track()
         else:
             logging.info('command for rfid %s not found' % rfid_value)
 
@@ -61,12 +130,6 @@ class Model:
         if rfid_value in self._available_commands.keys():
             self.run_command(rfid_value, controller)
         elif rfid_value in self._my_collection.keys():
-            controller.play_entry(self._my_collection[rfid_value])
-        # elif rfid_value == 700105795467:  # elsa karte
-        #     music = Sp_Music(rfid=700105795467,
-        #                      title='testPL', sp_uuid='3UqcGrPY6Jb7sloww3sH0X',
-        #                      sp_type=SpType.PLAYLIST, replay_type=ReplayType.FROM_START,
-        #                      last_played_song=0)
-        #     controller.play_entry(music)  # testPL
+            self._sp_player.play_entry(self._my_collection[rfid_value])
         else:
             logging.info('rfid %s not found' % rfid_value)
