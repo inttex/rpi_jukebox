@@ -60,7 +60,7 @@ class GUIView(ViewInterface):
                         dpg.add_text("RFID Collection Cards")
                         dpg.add_separator()
                         for rfid, entry in get_collection().items():
-                            print(entry)
+                            # print(entry)
                             entry: Sp_Music
                             dpg.add_button(label=entry.title, user_data=(rfid,),
                                            callback=self.rfid_callback)
@@ -72,6 +72,7 @@ class GUIView(ViewInterface):
 
         finally:
             dpg.destroy_context()
+            self._controller.stop_view()
 
     def stop_view(self):
         dpg.destroy_context()

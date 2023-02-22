@@ -3,8 +3,8 @@ from typing import NamedTuple, List
 
 
 class SpType(enum.Enum):
-    ALBUM = enum.auto
-    PLAYLIST = enum.auto
+    ALBUM = 1
+    PLAYLIST = 2
 
 
 class ReplayType(enum.Enum):
@@ -56,7 +56,7 @@ class Sp_Music(NamedTuple):
     sp_link: str = 'asdf'
     sp_type: SpType = SpType.ALBUM
     replay_type: ReplayType = ReplayType.FROM_START
-    last_played_song: int = 0
+    last_played_song: str = ''
 
     def __repr__(self):
         return self.get_sp_uuid()

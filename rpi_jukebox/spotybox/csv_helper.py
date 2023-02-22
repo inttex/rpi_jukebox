@@ -27,9 +27,18 @@ def get_collection() -> dict[int:Sp_Music]:
                              sp_link=line[2],
                              sp_type=SpType[line[3]],
                              replay_type=ReplayType[line[4]],
-                             last_played_song=int(line[5]))
-            collection_dict.update({line[0]: entry})
+                             last_played_song=line[5])
+            collection_dict.update({int(line[0]): entry})
     return collection_dict
+
+
+def write_collection(collection: dict[int:Sp_Music]):
+    with open('collection.csv', 'w', newline='') as file:
+        writer = csv.writer(file, delimiter=',')
+        for entry in collection.values():
+            entry: Sp_Music
+            writer.writerow((entry.rfid, entry.title, entry.sp_link, entry.sp_type.name, entry.replay_type.name,
+                             entry.last_played_song))
 
 
 def main():

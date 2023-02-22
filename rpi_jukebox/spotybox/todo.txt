@@ -1,0 +1,7 @@
+
+* letzt gespielten Track merken
+* Renderer wechseln
+* Herunterfahren in 20 min
+* herunterfahren
+* installations-skripts
+* version mit spoti...py testen

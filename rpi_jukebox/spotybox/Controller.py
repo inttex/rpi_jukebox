@@ -16,11 +16,14 @@ class Controller(ControllerInterface):
         self._model.evaluate_rfid(rfid_value, controller=self)
 
     def evaluate_new_switch_state(self, new_switch_state: SwitchState):
+        # _sp.transfer_playback(device_id)
         logging.info('controller, evaluating new switch state %s' % new_switch_state)
 
     def stop_view(self):
         logging.info('controller, stop view')
         self._view.stop_view()
+        logging.info('controller, stop model')
+        self._model.stop_model()
 
     def stop_device(self):
         logging.info('controller, stop_device')

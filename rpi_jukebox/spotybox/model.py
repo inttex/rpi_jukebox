@@ -1,12 +1,15 @@
 import configparser
 import logging
+import traceback
 from pathlib import Path
-from typing import NamedTuple
+from threading import Thread
+from time import sleep
+from typing import NamedTuple, Callable
 
 from spotipy import SpotifyOAuth, Spotify
 
-from rpi_jukebox.spotify_client.data_structs import Sp_Music, SpType
-from rpi_jukebox.spotybox.csv_helper import get_commands, get_collection
+from rpi_jukebox.spotify_client.data_structs import Sp_Music, SpType, get_uri_from_url, ReplayType
+from rpi_jukebox.spotybox.csv_helper import get_commands, get_collection, write_collection
 from rpi_jukebox.spotybox.dataclasses import COMMAND
 
 from rpi_jukebox.spotybox.interfaces import ControllerInterface
@@ -28,9 +31,34 @@ class Collection:
 
 
 class SpPlayer:
-    def __init__(self):
+    def __init__(self, update_collection: Callable):
+        self._currently_playing_music: Sp_Music = None
         self._volume = 80
         self._sp = self.start_spotify_connection()
+        self._do_stop_threads = False
+        self._current_track_getter_thread = Thread(target=self.current_track_getter_loop,
+                                                   args=(lambda: self._do_stop_threads,))
+        self._current_track_getter_thread.start()
+        self._update_collection: Callable = update_collection
+
+    def __del__(self):
+        self._do_stop_threads = True
+        self._current_track_getter_thread.join()
+        logging.info('track getter thread terminated by flag in destructor')
+
+    def current_track_getter_loop(self, is_do_stop_threads: Callable):
+        while not is_do_stop_threads():
+            sleep(1)
+            try:
+                current_track = self._sp.currently_playing()['item']['external_urls']['spotify']
+                if (self._currently_playing_music is not None) and (
+                        self._currently_playing_music.replay_type == ReplayType.FROM_LAST_TRACK) and (
+                        current_track != self._currently_playing_music.last_played_song):
+                    logging.info('current track has changed to %s' % current_track)
+                    self._currently_playing_music = self._currently_playing_music._replace(last_played_song=current_track)
+                    self._update_collection(self._currently_playing_music)
+            except:
+                print(traceback.print_exc(()))
 
     def start_spotify_connection(self):
         config = configparser.ConfigParser()
@@ -53,11 +81,14 @@ class SpPlayer:
         return sp
 
     def play_entry(self, music: Sp_Music):
-        logging.info('Sp_Player: playing song %s' % str(music))
+        self._currently_playing_music = music
+        logging.info('Sp_Player: playing song %s of type %s' % (str(music), music.sp_type))
         if music.sp_type == SpType.ALBUM:
             self._sp.start_playback(context_uri=music.sp_link)
-        if music.sp_type == SpType.PLAYLIST:
-            self._sp.start_playback(context_uri=music.sp_link, offset={'position': music.last_played_song})
+        elif music.sp_type == SpType.PLAYLIST:
+            print('play',music.last_played_song)
+            self._sp.start_playback(context_uri=music.sp_link,
+                                    offset={'uri': get_uri_from_url(music.last_played_song)})
 
     def pause_play(self):
         if self._sp.current_user_playing_track()['is_playing']:
@@ -96,7 +127,12 @@ class Model:
         self._available_commands = get_commands()
         self._my_collection = get_collection()
         self._collection = Collection()
-        self._sp_player = SpPlayer()
+        self._sp_player = SpPlayer(self.update_collection)
+
+    def update_collection(self, updated_music_entry: Sp_Music):
+        logging.info('updating collection')
+        self._my_collection.update({updated_music_entry.rfid: updated_music_entry})
+        write_collection(self._my_collection)
 
     def rfid_from_command(self, command_to_check: COMMAND):
         for key, command in self._available_commands.items():
@@ -133,3 +169,6 @@ class Model:
             self._sp_player.play_entry(self._my_collection[rfid_value])
         else:
             logging.info('rfid %s not found' % rfid_value)
+
+    def stop_model(self):
+        self._sp_player.__del__()

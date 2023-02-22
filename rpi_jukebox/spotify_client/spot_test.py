@@ -141,6 +141,7 @@ urllib.request.urlretrieve(img_url, "my_spotify_img.jpg")
 
 # get current song in album
 info_dict = sp.currently_playing(market='CH', additional_types=None)
+info_dict = sp.currently_playing()['item']['external_urls']['spotify']
 
 album_uri = info_dict['item']['album']['id']
 song_uri = info_dict['item']['id']
