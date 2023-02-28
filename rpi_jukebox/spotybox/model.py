@@ -48,14 +48,18 @@ class SpPlayer:
 
     def current_track_getter_loop(self, is_do_stop_threads: Callable):
         while not is_do_stop_threads():
-            sleep(1)
+            for i in range(3):
+                sleep(1)
+                if is_do_stop_threads():
+                    break
             try:
                 current_track = self._sp.currently_playing()['item']['external_urls']['spotify']
                 if (self._currently_playing_music is not None) and (
                         self._currently_playing_music.replay_type == ReplayType.FROM_LAST_TRACK) and (
                         current_track != self._currently_playing_music.last_played_song):
                     logging.info('current track has changed to %s' % current_track)
-                    self._currently_playing_music = self._currently_playing_music._replace(last_played_song=current_track)
+                    self._currently_playing_music = self._currently_playing_music._replace(
+                        last_played_song=current_track)
                     self._update_collection(self._currently_playing_music)
             except:
                 print(traceback.print_exc(()))
@@ -65,29 +69,31 @@ class SpPlayer:
         configfile = Path(r'../../res/config.cfg')
         config.read(configfile)
         username = config['SPOTIFY']['username']
-        clientID = config['SPOTIFY']['clientID']
+        self.clientID = config['SPOTIFY']['clientID']
         clientSecret = config['SPOTIFY']['clientSecret']
         redirect_uri = config['SPOTIFY']['redirect_uri']
-        self._DEVICE_ID = config['SPOTIFY']['DEVICE_ID_LINUX']
+        self._DEVICE_ID = config['SPOTIFY']['DEVICE_ID_VOLUMIO']
 
         sp = Spotify(auth_manager=SpotifyOAuth(username=username,
-                                               client_id=clientID,
+                                               client_id=self.clientID,
                                                client_secret=clientSecret,
                                                redirect_uri=redirect_uri,
                                                scope="user-read-playback-state,user-modify-playback-state",
                                                open_browser=False))
 
-        sp.volume(self._volume)
+        sp.volume(self._volume, device_id=self._DEVICE_ID)
         return sp
 
     def play_entry(self, music: Sp_Music):
         self._currently_playing_music = music
-        logging.info('Sp_Player: playing song %s of type %s' % (str(music), music.sp_type))
+        logging.info(
+            'Sp_Player: playing song "%s" with id %s of type %s' % (str(music.title), str(music), music.sp_type))
         if music.sp_type == SpType.ALBUM:
-            self._sp.start_playback(context_uri=music.sp_link)
+            self._sp.start_playback(device_id=self._DEVICE_ID, context_uri=music.sp_link)
         elif music.sp_type == SpType.PLAYLIST:
-            print('play',music.last_played_song)
-            self._sp.start_playback(context_uri=music.sp_link,
+            print('play', music.last_played_song)
+            self._sp.start_playback(device_id=self._DEVICE_ID,
+                                    context_uri=music.sp_link,
                                     offset={'uri': get_uri_from_url(music.last_played_song)})
 
     def pause_play(self):

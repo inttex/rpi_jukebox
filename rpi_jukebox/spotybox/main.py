@@ -3,7 +3,7 @@ import sys
 
 from rpi_jukebox.spotybox.Controller import Controller
 from rpi_jukebox.spotybox.GUIView import GUIView
-# from rpi_jukebox.spotybox.RaspiView import RaspiView
+from rpi_jukebox.spotybox.RaspiView import RaspiView
 from rpi_jukebox.spotybox.config import CLIENT_LOG_FILE
 from rpi_jukebox.spotybox.model import Model
 
@@ -11,7 +11,7 @@ logging.basicConfig(filename=CLIENT_LOG_FILE, level=logging.INFO, format='%(asct
 logging.getLogger().addHandler(logging.StreamHandler(sys.stdout))
 
 
-def main():
+def run_spotibox():
     app = RaspyBoxApp()
     app.run()
 
@@ -25,8 +25,8 @@ class RaspyBoxApp():
         # api_communicator = APICommunicator(host) #communicates by requests to the api restless server
 
         # view and controller
-        # self._view = RaspiView()  # get input from RFID, play and stop play_buffer
-        self._view = GUIView()
+        self._view = RaspiView()  # get input from RFID, play and stop play_buffer
+        # self._view = GUIView()
         controller = Controller(self._view, self._model)  # gets RFID, requests song via
         self._view.set_controller(controller)
 
@@ -36,4 +36,4 @@ class RaspyBoxApp():
 
 
 if __name__ == '__main__':
-    main()
+    run_spotibox()

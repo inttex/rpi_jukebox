@@ -11,7 +11,7 @@ import RPi.GPIO as GPIO
 
 from rpi_jukebox.spotify_client.data_structs import SwitchState
 
-MIN_DELAY_RFID_SEC = 2
+MIN_DELAY_RFID_SEC = 0.6
 
 
 def send_rfid_to_q(rfid_result, q: Queue):

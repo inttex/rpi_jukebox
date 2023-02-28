@@ -10,11 +10,11 @@ def get_commands() -> dict:
     with open('command_rfids.csv', 'r') as file:
         reader = csv.reader(file, delimiter=',')
         for line in reader:
-            commands_dict.update({line[0]: COMMAND[line[1].split('.')[1]]})
+            commands_dict.update({int(line[0]): COMMAND[line[1].split('.')[1]]})
     return commands_dict
 
 
-def get_collection() -> dict[int:Sp_Music]:
+def get_collection():
     # read from csv
     # to pandas?
 
@@ -32,7 +32,7 @@ def get_collection() -> dict[int:Sp_Music]:
     return collection_dict
 
 
-def write_collection(collection: dict[int:Sp_Music]):
+def write_collection(collection):
     with open('collection.csv', 'w', newline='') as file:
         writer = csv.writer(file, delimiter=',')
         for entry in collection.values():

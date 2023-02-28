@@ -1,5 +1,6 @@
 import base64
 import configparser
+import sys
 import urllib
 from pathlib import Path
 
@@ -8,8 +9,9 @@ from spotipy import SpotifyOAuth, Spotify
 
 import logging
 
-# logging.basicConfig(level=logging.DEBUG)
-logging.basicConfig(level=logging.WARNING)
+logging.basicConfig(level=logging.DEBUG)
+# logging.basicConfig(level=logging.WARNING)
+logging.getLogger().addHandler(logging.StreamHandler(sys.stdout))
 logging.debug('This will get logged')
 
 config = configparser.ConfigParser()
@@ -20,13 +22,15 @@ username = config['SPOTIFY']['username']
 clientID = config['SPOTIFY']['clientID']
 clientSecret = config['SPOTIFY']['clientSecret']
 redirect_uri = config['SPOTIFY']['redirect_uri']
-DEVICE_ID = config['SPOTIFY']['DEVICE_ID_LINUX']
+DEVICE_ID = config['SPOTIFY']['DEVICE_ID_VOLUMIO']
 
 sp = Spotify(auth_manager=SpotifyOAuth(username=username,
-                                       client_id=clientID,
+                                       client_id=DEVICE_ID,
                                        client_secret=clientSecret,
                                        redirect_uri=redirect_uri,
                                        scope="user-read-playback-state,user-modify-playback-state"))
+
+sp.volume(80, device_id=DEVICE_ID)
 # Transfer playback to the Raspberry Pi if music is playing on a different device
 # sp.transfer_playback(device_id=DEVICE_ID, force_play=False)
 

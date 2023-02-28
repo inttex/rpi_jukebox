@@ -1,0 +1,4 @@
+#!/bin/bash
+
+source /home/volumio/venv/rpi_jukebox/bin/activate
+run_client 2>> /home/volumio/src/rpi_jukebox/data/spotibox_errors
