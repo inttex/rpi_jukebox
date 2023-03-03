@@ -19,6 +19,7 @@ def run_spotibox():
 class RaspyBoxApp():
 
     def __init__(self):
+        logging.info('starting RaspyBox')
         # instantiate model components
         self._model = Model()
         # music_loader = MusicLoader() # gets wav and prepares start times

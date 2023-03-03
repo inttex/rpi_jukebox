@@ -6,6 +6,6 @@
 * installations-skripts
 * version mit spoti...py testen
 
-screen -S mon -d -m bash -c "cd /home/volumio/src/rpi_jukebox/spotybox; /home/volumio/venv/rpi_jukebox/bin/python main.py &"
+sudo volumio -c screen -S mon -d -m bash -c "cd /home/volumio/src/rpi_jukebox/spotybox; /home/volumio/venv/rpi_jukebox/bin/python main.py &"
 
 manual testing with "bash -x /etc/rc.local"

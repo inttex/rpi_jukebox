@@ -31,4 +31,4 @@ class Controller(ControllerInterface):
 
     def stop_device_in_20min(self):
         logging.info('controller, stop_device_in_20min')
-        self._view.stop_view_in20min()
+        self._model.stop_view_in20min()

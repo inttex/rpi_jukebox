@@ -1,5 +1,6 @@
 import configparser
 import logging
+import os
 import traceback
 from pathlib import Path
 from threading import Thread
@@ -62,7 +63,7 @@ class SpPlayer:
                         last_played_song=current_track)
                     self._update_collection(self._currently_playing_music)
             except:
-                print(traceback.print_exc(()))
+                print(traceback.print_exc())
 
     def start_spotify_connection(self):
         config = configparser.ConfigParser()
@@ -124,8 +125,10 @@ class SpPlayer:
         logging.info('Sp_Player: increase volume to %s' % self._volume)
         self._sp.volume(self._volume)
 
-    def stop_view_in20min(self):
+    def stop_device_in_20min(self):
         logging.info('Sp_Player: stop in 20min. NOT IMPLEMENTED, YET')
+        logging.info('Sp_Player: do stop raspi now, instead')
+        os.system('shutdown -h now')
 
 
 class Model:
@@ -133,7 +136,16 @@ class Model:
         self._available_commands = get_commands()
         self._my_collection = get_collection()
         self._collection = Collection()
-        self._sp_player = SpPlayer(self.update_collection)
+        for i in range(100):
+            try:
+                sleep(1)
+                logging.info('trying to start SpPlayer, nb %s' % i)
+                self._sp_player = SpPlayer(self.update_collection)
+                logging.info('successful try, nb %s' % i)
+                break
+            except:
+                logging.info('failed try, nb %s' % i)
+                logging.info(traceback.print_exc())
 
     def update_collection(self, updated_music_entry: Sp_Music):
         logging.info('updating collection')
@@ -158,7 +170,7 @@ class Model:
         elif rfid_value == self.rfid_from_command(COMMAND.STOP_DEVICE):
             controller.stop_device()
         elif rfid_value == self.rfid_from_command(COMMAND.STOP_DEVICE_20_MIN):
-            controller.stop_device_in_20min()
+            self._sp_player.stop_device_in_20min()
         elif rfid_value == self.rfid_from_command(COMMAND.NEXT):
             self._sp_player.next_track()
         elif rfid_value == self.rfid_from_command(COMMAND.PREV):
