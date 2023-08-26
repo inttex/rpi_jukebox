@@ -42,13 +42,23 @@ class RaspiView(ViewInterface):
         except:
             logging.info(('terminating led blink loop by exception', traceback.print_exc()))
 
+    def LED_fast_blink(self, duration_sec=1):
+        logging.info(f'led fast toggling during {duration_sec} sec')
+        for i in range(duration_sec * 5):
+            GPIO.output(self._led_pin, GPIO.HIGH)
+            sleep(0.1)
+            GPIO.output(self._led_pin, GPIO.LOW)
+            sleep(0.1)
+
     def set_controller(self, controller: ControllerInterface):
         self._controller = controller
 
     def rfid_callback(self, rfid_value: int):
+        Thread(self.LED_fast_blink(1)).start()
         self._controller.evaluate_rfid(rfid_value)
 
     def switch_callback(self, new_switch_state: SwitchState):
+        Thread(self.LED_fast_blink(1)).start()
         self._controller.evaluate_new_switch_state(new_switch_state)
 
     def run(self):
