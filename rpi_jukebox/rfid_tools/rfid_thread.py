@@ -2,13 +2,13 @@ import datetime
 import logging
 import traceback
 from queue import Queue
-from threading import Thread
 from time import sleep
 from typing import Callable
 
 from mfrc522 import SimpleMFRC522
 import RPi.GPIO as GPIO
 
+from rpi_jukebox.rfid_tools.test_inputs import main
 from rpi_jukebox.spotify_client.data_structs import SwitchState
 
 MIN_DELAY_RFID_SEC = 0.6
@@ -88,18 +88,3 @@ def switch_reader_loop(is_do_terminate_threads: Callable, switch_callback: Calla
         logging.info(('terminating switch reader_loop by exception', traceback.print_exc()))
 
 
-def main():
-    do_terminate_threads = False
-    q = Queue()
-    rfid_thread = Thread(target=rfid_loop, args=(q, lambda: do_terminate_threads))
-    reader_thread = Thread(target=reader_loop, args=(q, lambda: do_terminate_threads))
-
-    sleep(20)
-
-    do_terminate_threads = True
-    rfid_thread.join()
-    reader_thread.join()
-
-
-if __name__ == '__main__':
-    main()
