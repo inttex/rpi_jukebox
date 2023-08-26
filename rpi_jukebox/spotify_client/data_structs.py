@@ -12,6 +12,11 @@ class ReplayType(enum.Enum):
     FROM_LAST_TRACK = 2
 
 
+class Device(NamedTuple):
+    name: str
+    device_id: str
+
+
 class SwitchState(enum.Enum):
     INTERNAL = 1
     EXTERNAL = 2

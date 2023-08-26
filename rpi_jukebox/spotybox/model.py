@@ -9,7 +9,7 @@ from typing import NamedTuple, Callable
 
 from spotipy import SpotifyOAuth, Spotify, SpotifyOauthError
 
-from rpi_jukebox.spotify_client.data_structs import Sp_Music, SpType, get_uri_from_url, ReplayType
+from rpi_jukebox.spotify_client.data_structs import Sp_Music, SpType, get_uri_from_url, ReplayType, SwitchState, Device
 from rpi_jukebox.spotybox.csv_helper import get_commands, get_collection, write_collection
 from rpi_jukebox.spotybox.dataclasses import COMMAND
 
@@ -34,7 +34,7 @@ class Collection:
 class SpPlayer:
     def __init__(self, update_collection: Callable):
         self._currently_playing_music: Sp_Music = None
-        self._volume = 80
+        self._volume = 40
         self._sp = self.start_spotify_connection()
         self._do_stop_threads = False
         self._lock = Lock()
@@ -75,7 +75,9 @@ class SpPlayer:
         self.clientID = config['SPOTIFY']['clientID']
         clientSecret = config['SPOTIFY']['clientSecret']
         redirect_uri = config['SPOTIFY']['redirect_uri']
-        self._DEVICE_ID = config['SPOTIFY']['DEVICE_ID_VOLUMIO']
+        self._device_id_internal = Device('internal', config['SPOTIFY']['DEVICE_ID_VOLUMIO'])
+        self._device_id_external = Device('external', config['SPOTIFY']['DEVICE_ID_LINUX'])
+        self._device = self._device_id_internal
 
         sp = Spotify(auth_manager=SpotifyOAuth(username=username,
                                                client_id=self.clientID,
@@ -84,7 +86,7 @@ class SpPlayer:
                                                scope="user-read-playback-state,user-modify-playback-state",
                                                open_browser=False))
 
-        sp.volume(self._volume, device_id=self._DEVICE_ID)
+        sp.volume(self._volume, device_id=self._device.device_id)
         return sp
 
     def play_entry(self, music: Sp_Music):
@@ -92,18 +94,18 @@ class SpPlayer:
             with self._lock:
                 self._currently_playing_music = music
                 logging.info(
-                    'Sp_Player: playing album/playlist "%s" with id %s of type %s, track %s' % (
-                        str(music.title), str(music), music.sp_type, str(music.last_played_song)))
+                    'Sp_Player: playing album/playlist "%s" with id %s of type %s, track %s on device %s' % (
+                        str(music.title), str(music), music.sp_type, str(music.last_played_song), str(self._device.name)))
                 if music.sp_type == SpType.ALBUM:
-                    self._sp.start_playback(device_id=self._DEVICE_ID, context_uri=music.sp_link)
+                    self._sp.start_playback(device_id=self._device.device_id, context_uri=music.sp_link)
                 elif music.sp_type == SpType.PLAYLIST:
                     print('play', music.last_played_song)
                     if music.replay_type == ReplayType.FROM_LAST_TRACK:
-                        self._sp.start_playback(device_id=self._DEVICE_ID,
+                        self._sp.start_playback(device_id=self._device.device_id,
                                                 context_uri=music.sp_link,
                                                 offset={'uri': get_uri_from_url(music.last_played_song)})
                     elif music.replay_type == ReplayType.FROM_START:
-                        self._sp.start_playback(device_id=self._DEVICE_ID,
+                        self._sp.start_playback(device_id=self._device.device_id,
                                                 context_uri=music.sp_link)
         except SpotifyOauthError:
             logging.exception('sp_player play_entry: %s', traceback.print_exc())
@@ -140,6 +142,14 @@ class SpPlayer:
         logging.info('Sp_Player: stop in 20min. NOT IMPLEMENTED, YET')
         # logging.info('Sp_Player: do stop raspi now, instead')
         # os.system('shutdown -h now')
+
+    def set_switch_state(self, new_switch_state: SwitchState):
+        if new_switch_state == SwitchState.INTERNAL:
+            self._device = self._device_id_internal
+        else:
+            self._device = self._device_id_external
+        logging.info('switch to replay device %s' % self._device.name)
+        self._sp.transfer_playback(device_id=self._device.device_id)
 
 
 class Model:
@@ -201,3 +211,6 @@ class Model:
 
     def stop_model(self):
         self._sp_player.__del__()
+
+    def set_switch_state(self, new_switch_state: SwitchState):
+        self._sp_player.set_switch_state(new_switch_state)

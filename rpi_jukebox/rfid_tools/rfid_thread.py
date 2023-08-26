@@ -8,7 +8,6 @@ from typing import Callable
 from mfrc522 import SimpleMFRC522
 import RPi.GPIO as GPIO
 
-from rpi_jukebox.rfid_tools.test_inputs import main
 from rpi_jukebox.spotify_client.data_structs import SwitchState
 
 MIN_DELAY_RFID_SEC = 0.6

@@ -36,6 +36,8 @@ sp.volume(80, device_id=DEVICE_ID)
 # Transfer playback to the Raspberry Pi if music is playing on a different device
 # sp.transfer_playback(device_id=DEVICE_ID, force_play=False)
 
+sp.devices()
+
 # Play the spotify track at URI with ID 45vW6Apg3QwawKzBi03rgD (you can swap this for a diff song ID below)
 # sp.start_playback(device_id=DEVICE_ID, uris=['spotify:track:0bngtPi5C56c6IGB4h9XVS'])
 # sp.start_playback(device_id=DEVICE_ID, uris=['spotify:track:4mHv2ujBeoqhwZxgVhoPJy'])  # the battle
